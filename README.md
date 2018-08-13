@@ -38,3 +38,8 @@ HTMLをMFMに変換します。
 
 ### CSS
 SASSで記述されており、`src/style`にソースがあります。プレビュー用に`dist/style/mfm.css`もあります。
+
+## example
+Example may be shown on GitHub powered by Jekyll
+
+{% include example.html %}
