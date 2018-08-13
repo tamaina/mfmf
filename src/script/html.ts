@@ -9,6 +9,7 @@ type options = {
 	baseUrl?: string
 	nostyle?: boolean
 	disableAnimate?: boolean
+	codeTagAsDiv?: boolean
 }
 
 const handlers: { [key: string]: (window: any, token: any, options: options) => void } = {
@@ -33,13 +34,14 @@ const handlers: { [key: string]: (window: any, token: any, options: options) => 
 		document.body.appendChild(b);
 	},
 
-	code({ document }, { code }, { nostyle }) {
-		const pre = document.createElement('pre');
-		const inner = document.createElement('code');
-		if (!nostyle) pre.setAttribute('class', 'mfm-code');
+	code({ document }, { code }, { nostyle, codeTagAsDiv }) {
+		const outer = document.createElement(codeTagAsDiv ? 'div' : 'pre');
+		const inner = document.createElement(codeTagAsDiv ? 'div' : 'code');
+		if (!nostyle) outer.setAttribute('class', `mfm-code${codeTagAsDiv ? ' pre' : ''}`);
+		if (codeTagAsDiv) inner.setAttribute('class', 'code')
 		inner.innerHTML = code;
-		pre.appendChild(inner);
-		document.body.appendChild(pre);
+		outer.appendChild(inner);
+		document.body.appendChild(outer);
 	},
 
 	emoji({ document }, { content, emoji }) {
@@ -56,10 +58,11 @@ const handlers: { [key: string]: (window: any, token: any, options: options) => 
 		document.body.appendChild(a);
 	},
 
-	'inline-code'({ document }, { code }) {
-		const element = document.createElement('code');
-		element.textContent = code;
-		document.body.appendChild(element);
+	'inline-code'({ document }, { code }, { nostyle, codeTagAsDiv }) {
+		const e = document.createElement(codeTagAsDiv ? 'div' : 'code');
+		if (!nostyle) e.setAttribute('class', `mfm-inline-code${codeTagAsDiv ? ' code' : ''}`);
+		e.textContent = code;
+		document.body.appendChild(e);
 	},
 
 	link({ document }, { url, title }) {

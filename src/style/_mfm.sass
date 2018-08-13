@@ -10,7 +10,8 @@
   *
     background-clip: padding-box
 
-  code
+  code,
+  .code
     padding: 4px 8px;
     margin: 0 0.5em
     font-size: 80%
@@ -19,9 +20,14 @@
     border-radius: 2px
 
   pre.mfm-code
+  .pre.mfm-code
+    display: block
+    overflow: auto
+    white-space: pre
     margin: 8px 0
 
-    code
+    code,
+    .code
       padding: 16px
       margin: 0
 

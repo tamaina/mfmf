@@ -25,6 +25,7 @@ MFMテキストまたは`TextElement[]`を渡すと、HTML文字列が返って�
   * `false`のときは付属のCSS/SASSで利用できる形のスタイルが返ってきます。
 - **`baseUrl`** string : タグやリプライのリンクのプレフィクスです。不要なので`?`などのクエリを指定しておくとよいと思います。
 - **`disableAnimate`** : `true`に設定すると`nostyle: false`のとき出力されるanimate.cssで使われるクラスを出力しません。
+- **`codeTagAsDiv`** : `true`に設定すると`pre`・`code`タグだったものが`div.pre`・`div.code`になります。
 
 #### mfm.parse(source: string): TextElement[]
 MFMテキストから`TextElement[]`を生成します。

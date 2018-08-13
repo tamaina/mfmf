@@ -23,7 +23,7 @@ https://misskey.xyz
 console.log(
     mfmf.render(
         src,
-        { nostyle: false, baseUrl: '?' }
+        { nostyle: false, baseUrl: '?', codeTagAsDiv: true }
     )
 )
 // console.log(mfmf.htmlToMfm(`mfm parse test<br><br><a href="https://misskey.xyz">url</a><br><br><a href="https://www.google.com/?#q=Misskey">Misskey search</a>`))

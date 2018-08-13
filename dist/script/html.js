@@ -40,14 +40,16 @@ var handlers = {
     code: function (_a, _b, _c) {
         var document = _a.document;
         var code = _b.code;
-        var nostyle = _c.nostyle;
-        var pre = document.createElement('pre');
-        var inner = document.createElement('code');
+        var nostyle = _c.nostyle, codeTagAsDiv = _c.codeTagAsDiv;
+        var outer = document.createElement(codeTagAsDiv ? 'div' : 'pre');
+        var inner = document.createElement(codeTagAsDiv ? 'div' : 'code');
         if (!nostyle)
-            pre.setAttribute('class', 'mfm-code');
+            outer.setAttribute('class', "mfm-code" + (codeTagAsDiv ? ' pre' : ''));
+        if (codeTagAsDiv)
+            inner.setAttribute('class', 'code');
         inner.innerHTML = code;
-        pre.appendChild(inner);
-        document.body.appendChild(pre);
+        outer.appendChild(inner);
+        document.body.appendChild(outer);
     },
     emoji: function (_a, _b) {
         var document = _a.document;
@@ -66,12 +68,15 @@ var handlers = {
         a.setAttribute('rel', 'tag');
         document.body.appendChild(a);
     },
-    'inline-code': function (_a, _b) {
+    'inline-code': function (_a, _b, _c) {
         var document = _a.document;
         var code = _b.code;
-        var element = document.createElement('code');
-        element.textContent = code;
-        document.body.appendChild(element);
+        var nostyle = _c.nostyle, codeTagAsDiv = _c.codeTagAsDiv;
+        var e = document.createElement(codeTagAsDiv ? 'div' : 'code');
+        if (!nostyle)
+            e.setAttribute('class', "mfm-inline-code" + (codeTagAsDiv ? ' code' : ''));
+        e.textContent = code;
+        document.body.appendChild(e);
     },
     link: function (_a, _b) {
         var document = _a.document;
