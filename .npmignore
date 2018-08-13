@@ -2,8 +2,7 @@ node_modules/
 *.log
 *.tgz
 
-src/
-test/
+src/script
 gulpfile.js
 tsconfig.json
 tslint.json
