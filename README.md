@@ -24,7 +24,7 @@ MFMテキストまたは`TextElement[]`を渡すと、HTML文字列が返って�
 - **`nostyle`** boolean : `true`に設定するとスタイル指定を行わない設定のHTMLを返します。
   * `false`のときは付属のCSS/SASSで利用できる形のスタイルが返ってきます。
 - **`baseUrl`** string : タグやリプライのリンクのプレフィクスです。不要なので`?`などのクエリを指定しておくとよいと思います。
-- **`disableAnimate`** : `true`の設定すると
+- **`disableAnimate`** : `true`に設定すると`nostyle: false`のとき出力されるanimate.cssで使われるクラスを出力しません。
 
 #### mfm.parse(source: string): TextElement[]
 MFMテキストから`TextElement[]`を生成します。
