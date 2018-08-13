@@ -5,7 +5,8 @@
   margin: 0;
   padding: 0;
   overflow-wrap: break-word;
-  color: #717171; }
+  color: #717171;
+  line-height: 1.5em; }
   .mfm * {
     background-clip: padding-box; }
   .mfm code,
@@ -17,14 +18,17 @@
     color: #525252;
     background: #f8f8f8;
     border-radius: 2px; }
+  .mfm pre.mfm-code,
   .mfm .pre.mfm-code {
     display: block;
     overflow: auto;
     white-space: pre;
     margin: 8px 0; }
+    .mfm pre.mfm-code code,
+    .mfm pre.mfm-code .code,
     .mfm .pre.mfm-code code,
     .mfm .pre.mfm-code .code {
-      padding: 16px;
+      padding: 1em;
       margin: 0;
       width: 100%; }
   .mfm .mfm-quote {
