@@ -8,8 +8,18 @@
   color: #717171; }
   .mfm * {
     background-clip: padding-box; }
+  .mfm code {
+    padding: 4px 8px;
+    margin: 0 0.5em;
+    font-size: 80%;
+    color: #525252;
+    background: #f8f8f8;
+    border-radius: 2px; }
   .mfm pre.mfm-code {
     margin: 8px 0; }
+    .mfm pre.mfm-code code {
+      padding: 16px;
+      margin: 0; }
   .mfm .mfm-quote {
     margin: 8px;
     padding: 6px 12px;
