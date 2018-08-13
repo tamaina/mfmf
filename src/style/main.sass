@@ -1,0 +1,15 @@
+$misskey: #f66e4f
+
+@import './_mfm'
+@import './_url'
+@import './_highlight'
+
+pre.mfm-code
+  @extend .mfm-highlight
+a
+  text-decoration: none
+  color: $misskey
+  cursor: pointer
+
+  &:hover
+    text-decoration: underline

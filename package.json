@@ -1,0 +1,24 @@
+{
+  "name": "mfmf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc; node sass-build"
+  },
+  "author": "tamaina <tamaina@hotmail.co.jp> (https://misskey.xyz/@aqz)",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-solid-svg-icons": "^5.2.0",
+    "emojilib": "^2.3.0",
+    "jsdom": "^11.12.0",
+    "parse5": "^5.0.0"
+  },
+  "dev-dependencies": {
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.3"
+  }
+}
