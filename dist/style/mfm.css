@@ -31,7 +31,8 @@
     .mfm .pre.mfm-code .code {
       padding: 1.25em;
       margin: 0;
-      width: 100%; }
+      width: auto;
+      min-width: 100%; }
   .mfm .mfm-quote {
     margin: 8px;
     padding: 6px 12px;
