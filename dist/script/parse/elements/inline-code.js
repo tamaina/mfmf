@@ -8,12 +8,14 @@ function default_1(text) {
     var match = text.match(/^`(.+?)`/);
     if (!match)
         return null;
+    if (match[1].includes('´'))
+        return null;
     var code = match[0];
     return {
         type: 'inline-code',
         content: code,
-        code: code.substr(1, code.length - 2).trim(),
-        html: syntax_highlighter_1.default(code.substr(1, code.length - 2).trim())
+        code: match[1],
+        html: syntax_highlighter_1.default(match[1])
     };
 }
 exports.default = default_1;

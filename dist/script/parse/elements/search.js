@@ -4,7 +4,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 function default_1(text) {
-    var match = text.match(/^(.+?) (検索|search)(\n|$)/i);
+    var match = text.match(/^(.+?)( |　)(検索|\[検索\]|Search|\[Search\])(\n|$)/i);
     if (!match)
         return null;
     return {
