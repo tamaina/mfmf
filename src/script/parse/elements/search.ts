@@ -9,12 +9,12 @@ export type TextElementSearch = {
 };
 
 export default function(text: string) {
-	const match = text.match(/^(.+?)( |　)(検索|\[検索\]|Search|\[Search\])(\n|$)/i);
+	const match = text.match(/^(.+?)( |　)\[?(検索|Search)\]?(\n|$)/i);
 	if (!match) return null;
 	return {
 		type: 'search',
 		content: match[0],
 		query: match[1],
-		search: match[2]
+		search: match[3]
 	};
 }

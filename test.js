@@ -18,6 +18,7 @@ Quote
 【Title】
 [title]
 Misskey Search
+Misskey [Search]
 https://misskey.xyz
 `
 console.log(
