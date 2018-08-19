@@ -49,9 +49,12 @@ export default function(html: string): string {
 						text += txt;
 						break;
 					}
+				// ハッシュタグ
+				} else if (node.attrs.find((x: any) => x.name == 'rel').value.match('tag') !== null) {
+					text += txt;
 				// その他
 				} else {
-					text += `[${txt}](${node.attrs.find((x: any) => x.name == 'href').value})`
+					text += `[${txt}](${node.attrs.find((x: any) => x.name == 'href').value})`;
 				}
 				break;
 

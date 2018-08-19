@@ -94,7 +94,7 @@ const handlers: { [key: string]: (window: any, token: any, options: options) => 
 	},
 
 	text({ document }, { content }) {
-		const t = content.split('\n')
+		const t = content.split('\n');
 		for (let i = 0; i < t.length; i++) {
 			document.body.appendChild(document.createTextNode(t[i]));
 			if (i != t.length - 1) {

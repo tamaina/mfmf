@@ -41,6 +41,10 @@ function default_1(html) {
                         text += txt;
                         break;
                     }
+                    // ハッシュタグ
+                }
+                else if (node.attrs.find(function (x) { return x.name == 'rel'; }).value.match('tag') !== null) {
+                    text += txt;
                     // その他
                 }
                 else {
