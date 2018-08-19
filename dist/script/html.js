@@ -6,6 +6,9 @@ var JSDOM = jsdom.JSDOM;
 var parse_1 = require("./parse");
 var fontawesome = require("@fortawesome/fontawesome-svg-core");
 fontawesome.library.add(require("@fortawesome/free-solid-svg-icons").fas);
+function intersperse(sep, xs) {
+    return [].concat.apply([], xs.map(function (x) { return [sep, x]; })).slice(1);
+}
 var handlers = {
     bold: function (_a, _b, _c) {
         var document = _a.document;
@@ -118,12 +121,10 @@ var handlers = {
     text: function (_a, _b) {
         var document = _a.document;
         var content = _b.content;
-        var t = content.split('\n');
-        for (var i = 0; i < t.length; i++) {
-            document.body.appendChild(document.createTextNode(t[i]));
-            if (i != t.length - 1) {
-                document.body.appendChild(document.createElement('br'));
-            }
+        var nodes = content.split('\n').map(function (x) { return document.createTextNode(x); });
+        for (var _i = 0, _c = intersperse(document.createElement('br'), nodes); _i < _c.length; _i++) {
+            var x = _c[_i];
+            document.body.appendChild(x);
         }
     },
     url: function (_a, _b, _c) {

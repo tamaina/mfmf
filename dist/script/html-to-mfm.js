@@ -26,6 +26,7 @@ function default_1(html) {
                 break;
             case 'a':
                 var txt = getText(node);
+                var rel = node.attrs.find(function (x) { return x.name == 'rel'; });
                 // メンション
                 if (txt.startsWith('@')) {
                     var part = txt.split('@');
@@ -43,7 +44,7 @@ function default_1(html) {
                     }
                     // ハッシュタグ
                 }
-                else if (node.attrs.find(function (x) { return x.name == 'rel'; }).value.match('tag') !== null) {
+                else if (rel && rel.value.match('tag') !== null) {
                     text += txt;
                     // その他
                 }
