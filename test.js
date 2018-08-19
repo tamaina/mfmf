@@ -42,3 +42,6 @@ console.log(mfmf.htmlToMfm(`\u003cp\u003e\u003ca href=\"http://joinmisskey.githu
 
 console.log('\n★Misskeyからのcontent')
 console.log(mfmf.htmlToMfm('<p>んー</p><p><a href=\"https://misskey.xyz/notes/5b7973cf30ecca4ed17218ce\">【Misskeyで投票を見る】</a></p>'))
+
+console.log('\nHashtag?')
+console.log(mfmf.htmlToMfm('<p><a href=\"https://misskey.xyz/tags/hashtag\" rel=\"tag\">#hashtag</a> ?</p>'))
