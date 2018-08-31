@@ -27,13 +27,17 @@ function default_1(html) {
             case 'a':
                 var txt = getText(node);
                 var rel = node.attrs.find(function (x) { return x.name == 'rel'; });
-                // メンション
-                if (txt.startsWith('@')) {
+                var href = node.attrs.find(function (x) { return x.name == 'href'; });
+                // ハッシュタグ / hrefがない / URLそのまま
+                if ((rel && rel.value.match('tag') !== null) || !href || href.value == txt) {
+                    text += txt;
+                    // メンション
+                }
+                else if (txt.startsWith('@')) {
                     var part = txt.split('@');
                     if (part.length == 2) {
                         //#region ホスト名部分が省略されているので復元する
-                        var href = new URL(node.attrs.find(function (x) { return x.name == 'href'; }).value);
-                        var acct = txt + '@' + href.hostname;
+                        var acct = txt + '@' + (new URL(href.value)).hostname;
                         text += acct;
                         break;
                         //#endregion
@@ -42,14 +46,10 @@ function default_1(html) {
                         text += txt;
                         break;
                     }
-                    // ハッシュタグ
-                }
-                else if (rel && rel.value.match('tag') !== null) {
-                    text += txt;
                     // その他
                 }
                 else {
-                    text += "[" + txt + "](" + node.attrs.find(function (x) { return x.name == 'href'; }).value + ")";
+                    text += "[" + txt + "](" + href.value + ")";
                 }
                 break;
             case 'p':

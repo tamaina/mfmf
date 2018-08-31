@@ -45,3 +45,5 @@ console.log(mfmf.htmlToMfm('<p>んー</p><p><a href=\"https://misskey.xyz/notes/
 
 console.log('\nHashtag?')
 console.log(mfmf.htmlToMfm('<p><a href=\"https://misskey.xyz/tags/hashtag\" rel=\"tag\">#hashtag</a> ?</p>'))
+console.log('\nHashtag?')
+console.log(mfmf.htmlToMfm('<p><a href=\"https://misskey.xyz/\">https://misskey.xyz/</a> ?</p>'))
