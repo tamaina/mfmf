@@ -34,7 +34,7 @@ console.log('\n★mfm → 外部に渡すhtml')
 console.log(
     mfmf.render(
         src,
-        { nostyle: true, baseUrl: 'https://misskey.xyz', codeTagAsDiv: false }
+        { nostyle: true, baseUrl: '?', codeTagAsDiv: false }
     )
 )
 console.log('\n★Mastodonからのcontent')

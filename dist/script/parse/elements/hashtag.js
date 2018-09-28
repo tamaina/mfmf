@@ -4,10 +4,10 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 function default_1(text, i) {
-    if (!(/^\s#[^\s]+/.test(text) || (i == 0 && /^#[^\s]+/.test(text))))
+    if (!(/^\s#[^\s\.,]+/.test(text) || (i == 0 && /^#[^\s\.,]+/.test(text))))
         return null;
-    var isHead = text[0] == '#';
-    var hashtag = text.match(/^\s?#[^\s]+/)[0];
+    var isHead = text.startsWith('#');
+    var hashtag = text.match(/^\s?#[^\s\.,]+/)[0];
     var res = !isHead ? [{
             type: 'text',
             content: text[0]

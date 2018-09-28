@@ -122,9 +122,14 @@ var handlers = {
         var document = _a.document;
         var content = _b.content;
         var nodes = content.split('\n').map(function (x) { return document.createTextNode(x); });
-        for (var _i = 0, _c = intersperse(document.createElement('br'), nodes); _i < _c.length; _i++) {
+        for (var _i = 0, _c = intersperse('br', nodes); _i < _c.length; _i++) {
             var x = _c[_i];
-            document.body.appendChild(x);
+            if (x === 'br') {
+                document.body.appendChild(document.createElement('br'));
+            }
+            else {
+                document.body.appendChild(x);
+            }
         }
     },
     url: function (_a, _b, _c) {

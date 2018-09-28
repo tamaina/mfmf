@@ -99,10 +99,14 @@ const handlers: { [key: string]: (window: any, token: any, options: options) => 
 
 	text({ document }, { content }) {
 		const nodes = (content as string).split('\n').map(x => document.createTextNode(x));
-		for (const x of intersperse(document.createElement('br'), nodes)) {
-			document.body.appendChild(x);
+		for (const x of intersperse('br', nodes)) {
+			if (x === 'br') {
+				document.body.appendChild(document.createElement('br'));
+			} else {
+				document.body.appendChild(x);
+			}
 		}
-	},
+},
 
 	url({ document }, { url }, { nostyle }) {
 		const a = document.createElement('a');

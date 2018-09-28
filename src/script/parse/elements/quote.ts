@@ -5,18 +5,23 @@
 export type TextElementQuote = {
 	type: 'quote'
 	content: string
-	cover: number
 	quote: string
 };
 
-export default function(text: string) {
-	const match = text.match(/^"([\s\S]+?)\n"\n/);
+export default function(text: string, index: number) {
+	const match = text.match(/^"([\s\S]+?)\n"/) || text.match(/^\n>([\s\S]+?)(\n\n|$)/) ||
+		(index == 0 ? text.match(/^>([\s\S]+?)(\n\n|$)/) : null);
+
 	if (!match) return null;
-	const quote = match[0].slice(0, -1);
+
+	const quote = match[1]
+		.split('\n')
+		.map(line => line.replace(/^>+/g, '').trim())
+		.join('\n');
+
 	return {
 		type: 'quote',
-		content: quote,
-		cover: quote.length + 1,
-		quote: quote.substr(1, quote.length - 2).trim(),
+		content: match[0],
+		quote: quote,
 	} as TextElementQuote;
 }

@@ -6,4 +6,4 @@ export declare type TextElementHashtag = {
     content: string;
     hashtag: string;
 };
-export default function (text: string, i: number): TextElementHashtag[] | null;
+export default function (text: string, i: number): any[] | null;

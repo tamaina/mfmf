@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var parse5 = require('parse5');
 function default_1(html) {
     if (html == null)
-        return '';
+        return null;
     var dom = parse5.parseFragment(html);
     var text = '';
     dom.childNodes.forEach(function (n) { return analyze(n); });
@@ -28,7 +28,7 @@ function default_1(html) {
                 var txt = getText(node);
                 var rel = node.attrs.find(function (x) { return x.name == 'rel'; });
                 var href = node.attrs.find(function (x) { return x.name == 'href'; });
-                // ハッシュタグ / hrefがない / URLそのまま
+                // ハッシュタグ / hrefがない / txtがURL
                 if ((rel && rel.value.match('tag') !== null) || !href || href.value == txt) {
                     text += txt;
                     // メンション
@@ -37,14 +37,12 @@ function default_1(html) {
                     var part = txt.split('@');
                     if (part.length == 2) {
                         //#region ホスト名部分が省略されているので復元する
-                        var acct = txt + '@' + (new URL(href.value)).hostname;
+                        var acct = txt + "@" + (new URL(href.value)).hostname;
                         text += acct;
-                        break;
                         //#endregion
                     }
                     else if (part.length == 3) {
                         text += txt;
-                        break;
                     }
                     // その他
                 }
@@ -53,7 +51,7 @@ function default_1(html) {
                 }
                 break;
             case 'p':
-                text += '\n';
+                text += '\n\n';
                 if (node.childNodes) {
                     node.childNodes.forEach(function (n) { return analyze(n); });
                 }

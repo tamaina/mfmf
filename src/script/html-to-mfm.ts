@@ -1,7 +1,7 @@
 const parse5 = require('parse5');
 
 export default function(html: string): string {
-	if (html == null) return '';
+	if (html == null) return null;
 
 	const dom = parse5.parseFragment(html);
 
@@ -36,7 +36,7 @@ export default function(html: string): string {
 				const rel = node.attrs.find((x: any) => x.name == 'rel');
 				const href = node.attrs.find((x: any) => x.name == 'href');
 
-				// ハッシュタグ / hrefがない / URLそのまま
+				// ハッシュタグ / hrefがない / txtがURL
 				if ((rel && rel.value.match('tag') !== null) || !href || href.value == txt) {
 					text += txt;
 				// メンション
@@ -45,13 +45,11 @@ export default function(html: string): string {
 
 					if (part.length == 2) {
 						//#region ホスト名部分が省略されているので復元する
-						const acct = txt + '@' + (new URL(href.value)).hostname;
+						const acct = `${txt}@${(new URL(href.value)).hostname}`;
 						text += acct;
-						break;
 						//#endregion
 					} else if (part.length == 3) {
 						text += txt;
-						break;
 					}
 				// その他
 				} else {
@@ -60,7 +58,7 @@ export default function(html: string): string {
 				break;
 
 			case 'p':
-				text += '\n';
+				text += '\n\n';
 				if (node.childNodes) {
 					node.childNodes.forEach((n: any) => analyze(n));
 				}

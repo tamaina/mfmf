@@ -1,3 +1,15 @@
+function capitalize(s: string): string {
+	return toUpperCase(s.charAt(0)) + toLowerCase(s.slice(1));
+}
+
+function toUpperCase(s: string): string {
+	return s.toUpperCase();
+}
+
+export function toLowerCase(s: string): string {
+	return s.toLowerCase();
+}
+
 function escape(text: string) {
 	return text
 		.replace(/>/g, '&gt;')
@@ -89,8 +101,8 @@ const _keywords = [
 ];
 
 const keywords = _keywords
-	.concat(_keywords.map(k => k[0].toUpperCase() + k.substr(1)))
-	.concat(_keywords.map(k => k.toUpperCase()))
+	.concat(_keywords.map(capitalize))
+	.concat(_keywords.map(toUpperCase))
 	.sort((a, b) => b.length - a.length);
 
 const symbols = [
@@ -197,7 +209,7 @@ const elements: Element[] = [
 
 		if (thisIsNotARegexp) return null;
 		if (regexp == '') return null;
-		if (regexp[0] == ' ' && regexp[regexp.length - 1] == ' ') return null;
+		if (regexp.startsWith(' ') && regexp.endsWith(' ')) return null;
 
 		return {
 			html: `<span class="regexp">/${escape(regexp)}/</span>`,

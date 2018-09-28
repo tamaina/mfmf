@@ -1,5 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+function capitalize(s) {
+    return toUpperCase(s.charAt(0)) + toLowerCase(s.slice(1));
+}
+function toUpperCase(s) {
+    return s.toUpperCase();
+}
+function toLowerCase(s) {
+    return s.toLowerCase();
+}
+exports.toLowerCase = toLowerCase;
 function escape(text) {
     return text
         .replace(/>/g, '&gt;')
@@ -89,8 +99,8 @@ var _keywords = [
     'constructor'
 ];
 var keywords = _keywords
-    .concat(_keywords.map(function (k) { return k[0].toUpperCase() + k.substr(1); }))
-    .concat(_keywords.map(function (k) { return k.toUpperCase(); }))
+    .concat(_keywords.map(capitalize))
+    .concat(_keywords.map(toUpperCase))
     .sort(function (a, b) { return b.length - a.length; });
 var symbols = [
     '=',
@@ -198,7 +208,7 @@ var elements = [
             return null;
         if (regexp == '')
             return null;
-        if (regexp[0] == ' ' && regexp[regexp.length - 1] == ' ')
+        if (regexp.startsWith(' ') && regexp.endsWith(' '))
             return null;
         return {
             html: "<span class=\"regexp\">/" + escape(regexp) + "/</span>",
