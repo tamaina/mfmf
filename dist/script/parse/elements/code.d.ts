@@ -1,6 +1,3 @@
-/**
- * Code (block)
- */
 export declare type TextElementCode = {
     type: 'code';
     content: string;

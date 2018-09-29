@@ -102,10 +102,20 @@ var handlers = {
         var document = _a.document;
         var quote = _b.quote;
         var nostyle = _c.nostyle;
+        console.log(quote);
         var blockquote = document.createElement('blockquote');
         if (!nostyle)
             blockquote.setAttribute('class', 'mfm-quote');
-        blockquote.textContent = quote;
+        var nodes = quote.split('\n').map(function (x) { return document.createTextNode(x); });
+        for (var _i = 0, _d = intersperse('br', nodes); _i < _d.length; _i++) {
+            var x = _d[_i];
+            if (x === 'br') {
+                blockquote.appendChild(document.createElement('br'));
+            }
+            else {
+                blockquote.appendChild(x);
+            }
+        }
         document.body.appendChild(blockquote);
     },
     title: function (_a, _b, _c) {
@@ -173,7 +183,7 @@ var handlers = {
         }
     }
 };
-exports.default = (function (input, options) {
+exports.default = function (input, options) {
     var tokens;
     if (input == null) {
         return '';
@@ -195,4 +205,4 @@ exports.default = (function (input, options) {
     else {
         return "<div class=\"mfm\">" + window.document.body.innerHTML + "</div>";
     }
-});
+};

@@ -1,9 +1,8 @@
 import { TextElement } from './parse';
-declare type options = {
-    baseUrl?: string;
-    nostyle?: boolean;
-    disableAnimate?: boolean;
-    codeTagAsDiv?: boolean;
-};
-declare const _default: (input: string | TextElement[], options: options) => string;
+declare const _default: (input: string | TextElement[], options: {
+    baseUrl?: string | undefined;
+    nostyle?: boolean | undefined;
+    disableAnimate?: boolean | undefined;
+    codeTagAsDiv?: boolean | undefined;
+}) => string;
 export default _default;

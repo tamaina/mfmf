@@ -86,7 +86,14 @@ const handlers: { [key: string]: (window: any, token: any, options: options) => 
 	quote({ document }, { quote }, { nostyle }) {
 		const blockquote = document.createElement('blockquote');
 		if (!nostyle) blockquote.setAttribute('class', 'mfm-quote');
-		blockquote.textContent = quote;
+		const nodes = (quote as string).split('\n').map(x => document.createTextNode(x));
+		for (const x of intersperse('br', nodes)) {
+			if (x === 'br') {
+				blockquote.appendChild(document.createElement('br'));
+			} else {
+				blockquote.appendChild(x);
+			}
+		}
 		document.body.appendChild(blockquote);
 	},
 

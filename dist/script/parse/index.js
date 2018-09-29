@@ -18,7 +18,7 @@ var elements = [
     require('./elements/search'),
     require('./elements/motion')
 ].map(function (element) { return element.default; });
-exports.default = (function (source) {
+exports.default = function (source) {
     if (source == null || source == '') {
         return null;
     }
@@ -66,4 +66,4 @@ exports.default = (function (source) {
             return a.concat(b);
         }
     }, []);
-});
+};

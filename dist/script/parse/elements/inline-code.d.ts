@@ -1,6 +1,3 @@
-/**
- * Code (inline)
- */
 export declare type TextElementInlineCode = {
     type: 'inline-code';
     content: string;

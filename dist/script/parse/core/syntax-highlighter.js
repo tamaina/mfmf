@@ -319,7 +319,7 @@ var elements = [
     }
 ];
 // specify lang is todo
-exports.default = (function (source, lang) {
+exports.default = function (source, lang) {
     var code = source;
     var html = '';
     var i = 0;
@@ -347,4 +347,4 @@ exports.default = (function (source, lang) {
         }
     }
     return html;
-});
+};
