@@ -102,7 +102,6 @@ var handlers = {
         var document = _a.document;
         var quote = _b.quote;
         var nostyle = _c.nostyle;
-        console.log(quote);
         var blockquote = document.createElement('blockquote');
         if (!nostyle)
             blockquote.setAttribute('class', 'mfm-quote');
