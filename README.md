@@ -1,4 +1,4 @@
-# mfmf: Misskey Flavored Markdown Functions
+# [mfmf: Misskey Flavored Markdown Functions](https://tamaina.github.io/mfmf/)
 [Misskey](https://github.com/syuilo/misskey)で使われているMarkdown風の書式をライブラリとして扱うことができます。  
 Misskeyのソースコードをほぼそのまま抜き出しています。
 
