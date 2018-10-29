@@ -2,6 +2,9 @@
 [Misskey](https://github.com/syuilo/misskey)で使われているMarkdown風の書式をライブラリとして扱うことができます。  
 Misskeyのソースコードをほぼそのまま抜き出しています。
 
+## liscense
+[LISCENSE](./LISCENSE)
+
 ## install
 ```
 npm install mfmf

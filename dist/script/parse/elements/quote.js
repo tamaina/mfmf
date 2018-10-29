@@ -11,7 +11,8 @@ function default_1(text, index) {
     var quote = match[1]
         .split('\n')
         .map(function (line) { return line.replace(/^>+/g, '').trim(); })
-        .join('\n');
+        .join('\n')
+        .trim();
     return {
         type: 'quote',
         content: match[0],
