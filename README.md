@@ -3,7 +3,7 @@
 Misskeyのソースコードをほぼそのまま抜き出しています。
 
 ## liscense
-[LISCENSE](./LISCENSE)
+[LICENSE](./LICENSE)
 
 ## install
 ```
