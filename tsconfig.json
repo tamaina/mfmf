@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist/script",
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
-  "include": ["src"],
+  "include": ["src/script"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }

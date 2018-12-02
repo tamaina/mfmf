@@ -1,4 +1,4 @@
-.mfm
+[data-mfm="root"], .havbbuyv
   background-color: #ffffff
   cursor: default
   display: block
@@ -11,38 +11,50 @@
   *
     background-clip: padding-box
 
-  code,
-  .code
+  [data-mfm="inlineCode"],
+  code
     display: inline-block
     padding: 4px 8px
     margin: 0 0.5em
     font-size: 80%
     color: #525252
-    background: #f8f8f8
+    background: rgba(0,0,0,.05)
     border-radius: 2px
     line-height: 1.171875em
 
-  pre.mfm-code,
-  .pre.mfm-code
+  [data-mfm="blockCode"],
+  pre
     display: block
     overflow: auto
     white-space: pre
     margin: 8px 0
+    font-size: 80%
+    line-height: 1.171875em
 
-    code,
-    .code
-      padding: 1.25em
+    > [data-mfm="blockCode-inner"],
+    > code:not([data-mfm="math"])
+      display: block
+      padding: 1rem
+      border-radius: 2px
       margin: 0
       width: auto
-      min-width: 100%
+      color: #525252
+      background: rgba(0,0,0,.05)
 
-  .mfm-quote
+  [data-mfm="center"],
+  .center
+    display: block
+    text-align: center
+
+  [data-mfm="quote"],
+  .quote
     margin: 8px
     padding: 6px 12px
     color: #aaa
     border-left: solid 3px #eee
 
-  .mfm-title
+  [data-mfm="title"],
+  .title
     display: block
     margin-bottom: 4px
     padding: 4px
@@ -51,16 +63,19 @@
     background: #eef1f3
     border-radius: 4px
 
-  .mfm-big
+  [data-mfm="big"],
+  .big
     display: inline-block
     font-size: 150%
     animation-iteration-count: infinite
 
-  .mfm-motion
+  [data-mfm="motion"],
+  .motion
     display: inline-block
     animation-iteration-count: infinite
 
-  .mfm-google
+  [data-mfm="search"],
+  .search
     display: flex
     margin: 8px 0
 
@@ -74,20 +89,20 @@
       height: 40px
       font-family: sans-serif
       font-size: 16px
-      color: #55595c
-      background: #fff
-      border: solid 1px #dadada
+      color: $googleSearchFg
+      background: $googleSearchBg
+      border: solid 1px $googleSearchBorder
       border-radius: 4px 0 0 4px
 
       &:hover
-        border-color: #b0b0b0
+        border-color: $googleSearchHoverBorder
 
     > button
       appearance: none
       box-shadow: none
       flex-shrink: 0
       padding: 0 16px
-      border: solid 1px #dadada
+      border: solid 1px $googleSearchBorder
       border-left: none
       border-radius: 0 4px 4px 0
       margin: 0

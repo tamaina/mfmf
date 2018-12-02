@@ -1,5 +1,5 @@
-import render from './html';
-import parse from './parse/index';
-import htmlToMfm from './html-to-mfm';
-import syntaxHighlighter from './parse/core/syntax-highlighter';
+import render from './mfm/html';
+import parse from './mfm/parse';
+import htmlToMfm from './mfm/html-to-mfm';
+import syntaxHighlighter from './mfm/syntax-highlight';
 export { render, htmlToMfm, syntaxHighlighter, parse };

@@ -1,22 +1,31 @@
 {
   "name": "mfmf",
-  "version": "1.3.3",
+  "version": "2.0.0",
   "description": "",
   "main": "dist/script/index.js",
   "scripts": {
     "build": "tsc; node sass-build"
   },
+  "repository": "https://github.com/tamaina/mfmf.git",
   "author": "tamaina <tamaina@hotmail.co.jp> (https://misskey.xyz/@aqz)",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.2",
-    "@fortawesome/free-solid-svg-icons": "^5.2.0",
-    "emojilib": "^2.3.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "@types/mongodb": "^3.1.15",
+    "@types/node": "^10.12.11",
+    "@types/parsimmon": "^1.10.0",
+    "cafy": "^12.0.0",
+    "emojilib": "^2.4.0",
     "jsdom": "^11.12.0",
-    "parse5": "^5.0.0"
+    "mongodb": "^3.1.10",
+    "parse5": "^5.1.0",
+    "parsimmon": "^1.12.0",
+    "punycode": "^2.1.1",
+    "stringz": "^1.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.0.1",
-    "node-sass": "^4.9.3"
+    "node-sass": "^4.10.0",
+    "typescript": "^3.0.1"
   }
 }

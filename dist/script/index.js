@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = require("./html");
+const html_1 = require("./mfm/html");
 exports.render = html_1.default;
-var index_1 = require("./parse/index");
-exports.parse = index_1.default;
-var html_to_mfm_1 = require("./html-to-mfm");
+const parse_1 = require("./mfm/parse");
+exports.parse = parse_1.default;
+const html_to_mfm_1 = require("./mfm/html-to-mfm");
 exports.htmlToMfm = html_to_mfm_1.default;
-var syntax_highlighter_1 = require("./parse/core/syntax-highlighter");
-exports.syntaxHighlighter = syntax_highlighter_1.default;
+const syntax_highlight_1 = require("./mfm/syntax-highlight");
+exports.syntaxHighlighter = syntax_highlight_1.default;
