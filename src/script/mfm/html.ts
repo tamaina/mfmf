@@ -27,6 +27,8 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 	const doc = window.document;
 
+	let bigcnt = 0, motcnt = 0;
+
 	function dive(nodes: Node[] | undefined): Node[] {
 		return nodes === undefined ? [] : nodes.map(n => handlers[n.name](n));
 	}
@@ -44,18 +46,27 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		},
 
 		big(token) {
+			bigcnt++
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('strong');
 			appendChildren(token.children, el);
 			el.setAttribute('data-mfm', 'big');
-			if(config.animate) el.setAttribute('class', 'animated tada')
+			if(config.animate && bigcnt <= 3) el.setAttribute('class', 'animated tada')
+			return el;
+		},
+
+		strike(token) {
+			const el = doc.createElement('del');
+			dive(token.children).forEach(child => el.appendChild(child));
+			el.setAttribute('data-mfm', 'strike');
 			return el;
 		},
 
 		motion(token) {
+			motcnt++
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
 			appendChildren(token.children, el);
 			el.setAttribute('data-mfm', 'motion');
-			if(config.animate) el.setAttribute('class', 'animated rubberBand')
+			if(config.animate && motcnt <= 3) el.setAttribute('class', 'animated rubberBand')
 			return el;
 		},
 

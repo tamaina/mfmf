@@ -3,6 +3,7 @@ const mfmf = require('./dist/script')
 const src = `mfm parse test
 ***Big***
 **Bold**
+~~Strike~~
 \`\`\`
 Code (Block)
 const thisis = true
@@ -17,6 +18,7 @@ const thisis = true
 "
 Quote
 "
+
 【Title】
 [title]
 Misskey Search

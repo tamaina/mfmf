@@ -1,10 +1,10 @@
 {
   "name": "mfmf",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "",
   "main": "dist/script/index.js",
   "scripts": {
-    "build": "tsc; node sass-build"
+    "build": "node sass-build && tsc"
   },
   "repository": "https://github.com/tamaina/mfmf.git",
   "author": "tamaina <tamaina@hotmail.co.jp> (https://misskey.xyz/@aqz)",

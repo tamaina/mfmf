@@ -13,3 +13,4 @@ export declare function sum(xs: number[]): number;
 export declare function groupBy<T>(f: (x: T, y: T) => boolean, xs: T[]): T[][];
 export declare function groupOn<T, S>(f: (x: T) => S, xs: T[]): T[][];
 export declare function lessThan(xs: number[], ys: number[]): boolean;
+export declare function takeWhile<T>(f: (x: T) => boolean, xs: T[]): T[];

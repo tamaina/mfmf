@@ -11,6 +11,7 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
     const config = conf === undefined ? {} : conf;
     const { window } = new JSDOM('');
     const doc = window.document;
+    let bigcnt = 0, motcnt = 0;
     function dive(nodes) {
         return nodes === undefined ? [] : nodes.map(n => handlers[n.name](n));
     }
@@ -26,18 +27,26 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
             return el;
         },
         big(token) {
+            bigcnt++;
             const el = config.jmstyle ? doc.createElement('span') : doc.createElement('strong');
             appendChildren(token.children, el);
             el.setAttribute('data-mfm', 'big');
-            if (config.animate)
+            if (config.animate && bigcnt <= 3)
                 el.setAttribute('class', 'animated tada');
             return el;
         },
+        strike(token) {
+            const el = doc.createElement('del');
+            dive(token.children).forEach(child => el.appendChild(child));
+            el.setAttribute('data-mfm', 'strike');
+            return el;
+        },
         motion(token) {
+            motcnt++;
             const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
             appendChildren(token.children, el);
             el.setAttribute('data-mfm', 'motion');
-            if (config.animate)
+            if (config.animate && motcnt <= 3)
                 el.setAttribute('class', 'animated rubberBand');
             return el;
         },
@@ -100,7 +109,7 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
         quote(token) {
             const el = config.jmstyle ? doc.createElement('div') : doc.createElement('blockquote');
             appendChildren(token.children, el);
-            el.setAttribute('data-mfm', 'blockquote');
+            el.setAttribute('data-mfm', 'quote');
             return el;
         },
         title(token) {

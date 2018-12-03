@@ -63,3 +63,16 @@ function lessThan(xs, ys) {
     return xs.length < ys.length;
 }
 exports.lessThan = lessThan;
+function takeWhile(f, xs) {
+    const ys = [];
+    for (const x of xs) {
+        if (f(x)) {
+            ys.push(x);
+        }
+        else {
+            break;
+        }
+    }
+    return ys;
+}
+exports.takeWhile = takeWhile;
