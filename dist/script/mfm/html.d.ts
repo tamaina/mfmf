@@ -5,6 +5,7 @@ export declare type mfmfHTMLConf = {
     jmstyle?: boolean;
     animate?: boolean;
     codeTagAsDiv?: boolean;
+    rootTagName?: boolean;
     faJm?: boolean;
 };
 declare const _default: (tokens: Node[], mentionedRemoteUsers?: {

@@ -98,7 +98,7 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
             return a;
         },
         quote(token) {
-            const el = doc.createElement('blockquote');
+            const el = config.jmstyle ? doc.createElement('div') : doc.createElement('blockquote');
             appendChildren(token.children, el);
             el.setAttribute('data-mfm', 'blockquote');
             return el;
@@ -169,7 +169,7 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
                     i.setAttribute('data-fa-icon-name', 'search');
                 }
                 const text = doc.createElement('span');
-                text.textContent = config.search || '検索';
+                text.textContent = ' ' + (config.search || '検索');
                 button.appendChild(i);
                 button.appendChild(text);
                 outer.appendChild(input);
