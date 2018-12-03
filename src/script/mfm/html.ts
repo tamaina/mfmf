@@ -126,7 +126,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		quote(token) {
 			const el = config.jmstyle ? doc.createElement('div') : doc.createElement('blockquote');
 			appendChildren(token.children, el);
-			el.setAttribute('data-mfm', 'blockquote');
+			el.setAttribute('data-mfm', 'quote');
 			return el;
 		},
 

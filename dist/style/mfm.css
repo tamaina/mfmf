@@ -26,7 +26,8 @@
     white-space: pre;
     margin: 8px 0;
     font-size: 80%;
-    line-height: 1.171875em; }
+    line-height: 1.171875em;
+    background: rgba(0, 0, 0, 0.05); }
     [data-mfm="root"] [data-mfm="blockCode"] > [data-mfm="blockCode-inner"],
     [data-mfm="root"] [data-mfm="blockCode"] > code:not([data-mfm="math"]),
     [data-mfm="root"] pre > [data-mfm="blockCode-inner"],
@@ -35,15 +36,14 @@
       padding: 1rem;
       border-radius: 2px;
       margin: 0;
-      width: auto;
       color: #525252;
-      background: rgba(0, 0, 0, 0.05); }
+      background-color: transparent; }
   [data-mfm="root"] [data-mfm="center"],
   [data-mfm="root"] .center {
     display: block;
     text-align: center; }
   [data-mfm="root"] [data-mfm="quote"],
-  [data-mfm="root"] .quote {
+  [data-mfm="root"] blockquote {
     margin: 8px;
     padding: 6px 12px;
     color: #aaa;
