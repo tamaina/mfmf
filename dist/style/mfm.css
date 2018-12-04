@@ -10,6 +10,7 @@
   [data-mfm="root"] * {
     background-clip: padding-box; }
   [data-mfm="root"] [data-mfm="bold"],
+  [data-mfm="root"] [data-mfm="big"],
   [data-mfm="root"] b {
     font-weight: bold; }
   [data-mfm="root"] [data-mfm="strike"],

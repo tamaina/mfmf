@@ -55,7 +55,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		},
 
 		strike(token) {
-			const el = doc.createElement('del');
+			const el = config.jmstyle ? doc.createElement('span') :doc.createElement('del');
 			dive(token.children).forEach(child => el.appendChild(child));
 			el.setAttribute('data-mfm', 'strike');
 			return el;
