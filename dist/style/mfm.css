@@ -9,6 +9,9 @@
   line-height: 1.5em; }
   [data-mfm="root"] * {
     background-clip: padding-box; }
+  [data-mfm="root"] [data-mfm="bold"],
+  [data-mfm="root"] b {
+    font-weight: bold; }
   [data-mfm="root"] [data-mfm="strike"],
   [data-mfm="root"] del {
     text-decoration: line-through; }

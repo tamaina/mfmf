@@ -22,7 +22,7 @@ const mfm = require('mfmf')
 const mfmstring = "**mfmf**"
 const html = mfm.render(mfm.parse(mfmstring), [])
 console.log(html)
-// => "<p><b data-mfm=\"bold\">mfmf</b></b>"
+// => `<p data-mfm="root"><b data-mfm="bold">mfmf</b></p>`
 ```
 
 #### mfm.render(input: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'], options?: any): string(HTML)

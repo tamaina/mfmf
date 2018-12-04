@@ -102,7 +102,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		},
 
 		inlineCode(token) {
-			const el = doc.createElement('code');
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.props.code;
 			el.setAttribute('data-mfm', 'inlineCode');
 			el.setAttribute('class', 'mfm-highlight');
@@ -110,7 +110,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		},
 
 		math(token) {
-			const el = doc.createElement('code');
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.props.formula;
 			el.setAttribute('data-mfm', 'math');
 			return el;
