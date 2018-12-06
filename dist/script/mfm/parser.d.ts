@@ -5,5 +5,6 @@ export declare type Node = {
     children?: Node[];
     props?: any;
 };
+export declare const plainParser: P.Language;
 declare const mfm: P.Language;
 export default mfm;

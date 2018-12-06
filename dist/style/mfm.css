@@ -16,6 +16,12 @@
   [data-mfm="root"] [data-mfm="strike"],
   [data-mfm="root"] del {
     text-decoration: line-through; }
+  [data-mfm="root"] [data-mfm="i"],
+  [data-mfm="root"] i {
+    font-style: oblique; }
+  [data-mfm="root"] [data-mfm="small"],
+  [data-mfm="root"] small {
+    font-size: smaller; }
   [data-mfm="root"] [data-mfm="inlineCode"],
   [data-mfm="root"] code:not([data-mfm="math"]) {
     display: inline-block;

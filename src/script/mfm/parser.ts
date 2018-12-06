@@ -64,11 +64,36 @@ const newline = P((input, i) => {
 	}
 });
 
+export const plainParser = P.createLanguage({
+	root: r => P.alt(
+		r.emoji,
+		r.text
+	).atLeast(1),
+
+	text: () => P.any.map(x => makeNode('text', { text: x })),
+
+	//#region Emoji
+	emoji: r =>
+		P.alt(
+			P.regexp(/:([a-z0-9_+-]+):/i, 1)
+			.map(x => makeNode('emoji', {
+				name: x
+			})),
+			P.regexp(emojiRegex)
+			.map(x => makeNode('emoji', {
+				emoji: x
+			})),
+		),
+	//#endregion
+});
+
 const mfm = P.createLanguage({
 	root: r => P.alt(
 		r.big,
+		r.small,
 		r.bold,
 		r.strike,
+		r.italic,
 		r.motion,
 		r.url,
 		r.link,
@@ -91,6 +116,22 @@ const mfm = P.createLanguage({
 	big: r =>
 		P.regexp(/^\*\*\*([\s\S]+?)\*\*\*/, 1)
 		.map(x => makeNodeWithChildren('big', P.alt(
+			r.strike,
+			r.italic,
+			r.mention,
+			r.hashtag,
+			r.emoji,
+			r.math,
+			r.text
+		).atLeast(1).tryParse(x))),
+	//#endregion
+
+	//#region Small
+	small: r =>
+		P.regexp(/<small>([\s\S]+?)<\/small>/, 1)
+		.map(x => makeNodeWithChildren('small', P.alt(
+			r.strike,
+			r.italic,
 			r.mention,
 			r.hashtag,
 			r.emoji,
@@ -115,6 +156,8 @@ const mfm = P.createLanguage({
 	bold: r =>
 		P.regexp(/\*\*([\s\S]+?)\*\*/, 1)
 		.map(x => makeNodeWithChildren('bold', P.alt(
+			r.strike,
+			r.italic,
 			r.mention,
 			r.hashtag,
 			r.url,
@@ -129,8 +172,10 @@ const mfm = P.createLanguage({
 		P.regexp(/<center>([\s\S]+?)<\/center>/, 1)
 		.map(x => makeNodeWithChildren('center', P.alt(
 			r.big,
+			r.small,
 			r.bold,
 			r.strike,
+			r.italic,
 			r.motion,
 			r.mention,
 			r.hashtag,
@@ -176,6 +221,21 @@ const mfm = P.createLanguage({
 		.map(x => makeNode('inlineCode', { code: x })),
 	//#endregion
 
+	//#region Italic
+	italic: r =>
+		P.regexp(/<i>([\s\S]+?)<\/i>/, 1)
+		.map(x => makeNodeWithChildren('italic', P.alt(
+			r.bold,
+			r.strike,
+			r.mention,
+			r.hashtag,
+			r.url,
+			r.link,
+			r.emoji,
+			r.text
+		).atLeast(1).tryParse(x))),
+	//#endregion
+
 	//#region Link
 	link: r =>
 		P.seqObj(
@@ -190,8 +250,10 @@ const mfm = P.createLanguage({
 		.map((x: any) => {
 			return makeNodeWithChildren('link', P.alt(
 				r.big,
+				r.small,
 				r.bold,
 				r.strike,
+				r.italic,
 				r.motion,
 				r.emoji,
 				r.text
@@ -231,7 +293,9 @@ const mfm = P.createLanguage({
 		P.alt(P.regexp(/\(\(\(([\s\S]+?)\)\)\)/, 1), P.regexp(/<motion>(.+?)<\/motion>/, 1))
 		.map(x => makeNodeWithChildren('motion', P.alt(
 			r.bold,
+			r.small,
 			r.strike,
+			r.italic,
 			r.mention,
 			r.hashtag,
 			r.emoji,
@@ -270,6 +334,7 @@ const mfm = P.createLanguage({
 		P.regexp(/~~(.+?)~~/, 1)
 		.map(x => makeNodeWithChildren('strike', P.alt(
 			r.bold,
+			r.italic,
 			r.mention,
 			r.hashtag,
 			r.url,
@@ -288,8 +353,10 @@ const mfm = P.createLanguage({
 			const q = match[1].trim().substring(1, match[1].length - 1);
 			const contents = P.alt(
 				r.big,
+				r.small,
 				r.bold,
 				r.strike,
+				r.italic,
 				r.motion,
 				r.url,
 				r.link,

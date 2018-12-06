@@ -4,11 +4,10 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const array_1 = require("../prelude/array");
 const punycode_1 = require("punycode");
-exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
+exports.default = (tokens, mentionedRemoteUsers = [], config = {}) => {
     if (tokens == null) {
         return null;
     }
-    const config = conf === undefined ? {} : conf;
     const { window } = new JSDOM('');
     const doc = window.document;
     let bigcnt = 0, motcnt = 0;
@@ -35,10 +34,22 @@ exports.default = (tokens, mentionedRemoteUsers = [], conf) => {
                 el.setAttribute('class', 'animated tada');
             return el;
         },
+        small(token) {
+            const el = config.jmstyle ? doc.createElement('span') : doc.createElement('small');
+            appendChildren(token.children, el);
+            el.setAttribute('data-mfm', 'small');
+            return el;
+        },
         strike(token) {
             const el = config.jmstyle ? doc.createElement('span') : doc.createElement('del');
-            dive(token.children).forEach(child => el.appendChild(child));
+            appendChildren(token.children, el);
             el.setAttribute('data-mfm', 'strike');
+            return el;
+        },
+        italic(token) {
+            const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
+            appendChildren(token.children, el);
+            el.setAttribute('data-mfm', 'i');
             return el;
         },
         motion(token) {

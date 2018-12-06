@@ -57,12 +57,28 @@ const newline = P((input, i) => {
         return P.makeFailure(i, 'not newline');
     }
 });
+exports.plainParser = P.createLanguage({
+    root: r => P.alt(r.emoji, r.text).atLeast(1),
+    text: () => P.any.map(x => makeNode('text', { text: x })),
+    //#region Emoji
+    emoji: r => P.alt(P.regexp(/:([a-z0-9_+-]+):/i, 1)
+        .map(x => makeNode('emoji', {
+        name: x
+    })), P.regexp(exports.emojiRegex)
+        .map(x => makeNode('emoji', {
+        emoji: x
+    }))),
+});
 const mfm = P.createLanguage({
-    root: r => P.alt(r.big, r.bold, r.strike, r.motion, r.url, r.link, r.mention, r.hashtag, r.emoji, r.blockCode, r.inlineCode, r.quote, r.math, r.search, r.title, r.center, r.text).atLeast(1),
+    root: r => P.alt(r.big, r.small, r.bold, r.strike, r.italic, r.motion, r.url, r.link, r.mention, r.hashtag, r.emoji, r.blockCode, r.inlineCode, r.quote, r.math, r.search, r.title, r.center, r.text).atLeast(1),
     text: () => P.any.map(x => makeNode('text', { text: x })),
     //#region Big
     big: r => P.regexp(/^\*\*\*([\s\S]+?)\*\*\*/, 1)
-        .map(x => makeNodeWithChildren('big', P.alt(r.mention, r.hashtag, r.emoji, r.math, r.text).atLeast(1).tryParse(x))),
+        .map(x => makeNodeWithChildren('big', P.alt(r.strike, r.italic, r.mention, r.hashtag, r.emoji, r.math, r.text).atLeast(1).tryParse(x))),
+    //#endregion
+    //#region Small
+    small: r => P.regexp(/<small>([\s\S]+?)<\/small>/, 1)
+        .map(x => makeNodeWithChildren('small', P.alt(r.strike, r.italic, r.mention, r.hashtag, r.emoji, r.math, r.text).atLeast(1).tryParse(x))),
     //#endregion
     //#region Block code
     blockCode: r => newline.then(P((input, i) => {
@@ -75,11 +91,11 @@ const mfm = P.createLanguage({
     //#endregion
     //#region Bold
     bold: r => P.regexp(/\*\*([\s\S]+?)\*\*/, 1)
-        .map(x => makeNodeWithChildren('bold', P.alt(r.mention, r.hashtag, r.url, r.link, r.emoji, r.text).atLeast(1).tryParse(x))),
+        .map(x => makeNodeWithChildren('bold', P.alt(r.strike, r.italic, r.mention, r.hashtag, r.url, r.link, r.emoji, r.text).atLeast(1).tryParse(x))),
     //#endregion
     //#region Center
     center: r => P.regexp(/<center>([\s\S]+?)<\/center>/, 1)
-        .map(x => makeNodeWithChildren('center', P.alt(r.big, r.bold, r.strike, r.motion, r.mention, r.hashtag, r.emoji, r.math, r.url, r.link, r.text).atLeast(1).tryParse(x))),
+        .map(x => makeNodeWithChildren('center', P.alt(r.big, r.small, r.bold, r.strike, r.italic, r.motion, r.mention, r.hashtag, r.emoji, r.math, r.url, r.link, r.text).atLeast(1).tryParse(x))),
     //#endregion
     //#region Emoji
     emoji: r => P.alt(P.regexp(/:([a-z0-9_+-]+):/i, 1)
@@ -109,10 +125,14 @@ const mfm = P.createLanguage({
     inlineCode: r => P.regexp(/`([^´\n]+?)`/, 1)
         .map(x => makeNode('inlineCode', { code: x })),
     //#endregion
+    //#region Italic
+    italic: r => P.regexp(/<i>([\s\S]+?)<\/i>/, 1)
+        .map(x => makeNodeWithChildren('italic', P.alt(r.bold, r.strike, r.mention, r.hashtag, r.url, r.link, r.emoji, r.text).atLeast(1).tryParse(x))),
+    //#endregion
     //#region Link
     link: r => P.seqObj(['silent', P.string('?').fallback(null).map(x => x != null)], P.string('['), ['text', P.regexp(/[^\n\[\]]+/)], P.string(']'), P.string('('), ['url', r.url], P.string(')'))
         .map((x) => {
-        return makeNodeWithChildren('link', P.alt(r.big, r.bold, r.strike, r.motion, r.emoji, r.text).atLeast(1).tryParse(x.text), {
+        return makeNodeWithChildren('link', P.alt(r.big, r.small, r.bold, r.strike, r.italic, r.motion, r.emoji, r.text).atLeast(1).tryParse(x.text), {
             silent: x.silent,
             url: x.url.props.url
         });
@@ -142,7 +162,7 @@ const mfm = P.createLanguage({
     //#endregion
     //#region Motion
     motion: r => P.alt(P.regexp(/\(\(\(([\s\S]+?)\)\)\)/, 1), P.regexp(/<motion>(.+?)<\/motion>/, 1))
-        .map(x => makeNodeWithChildren('motion', P.alt(r.bold, r.strike, r.mention, r.hashtag, r.emoji, r.url, r.link, r.math, r.text).atLeast(1).tryParse(x))),
+        .map(x => makeNodeWithChildren('motion', P.alt(r.bold, r.small, r.strike, r.italic, r.mention, r.hashtag, r.emoji, r.url, r.link, r.math, r.text).atLeast(1).tryParse(x))),
     //#endregion
     //#region Quote
     quote: r => newline.then(P((input, i) => {
@@ -168,7 +188,7 @@ const mfm = P.createLanguage({
     //#endregion
     //#region Strike
     strike: r => P.regexp(/~~(.+?)~~/, 1)
-        .map(x => makeNodeWithChildren('strike', P.alt(r.bold, r.mention, r.hashtag, r.url, r.link, r.emoji, r.text).atLeast(1).tryParse(x))),
+        .map(x => makeNodeWithChildren('strike', P.alt(r.bold, r.italic, r.mention, r.hashtag, r.url, r.link, r.emoji, r.text).atLeast(1).tryParse(x))),
     //#endregion
     //#region Title
     title: r => newline.then(P((input, i) => {
@@ -177,7 +197,7 @@ const mfm = P.createLanguage({
         if (!match)
             return P.makeFailure(i, 'not a title');
         const q = match[1].trim().substring(1, match[1].length - 1);
-        const contents = P.alt(r.big, r.bold, r.strike, r.motion, r.url, r.link, r.mention, r.hashtag, r.emoji, r.inlineCode, r.text).atLeast(1).tryParse(q);
+        const contents = P.alt(r.big, r.small, r.bold, r.strike, r.italic, r.motion, r.url, r.link, r.mention, r.hashtag, r.emoji, r.inlineCode, r.text).atLeast(1).tryParse(q);
         return P.makeSuccess(i + match[0].length, makeNodeWithChildren('title', contents));
     })),
     //#endregion

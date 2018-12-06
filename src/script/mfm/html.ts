@@ -16,12 +16,10 @@ export type mfmfHTMLConf = {
 	faJm?: boolean;
 }
 
-export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], conf?: mfmfHTMLConf | Source ) => {
+export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], config: mfmfHTMLConf | Source = {} ) => {
 	if (tokens == null) {
 		return null;
 	}
-
-	const config = conf === undefined ? {} : conf
 
 	const { window } = new JSDOM('');
 
@@ -54,10 +52,24 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 			return el;
 		},
 
+		small(token) {
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('small');
+			appendChildren(token.children, el);
+			el.setAttribute('data-mfm', 'small');
+			return el;
+		},
+
 		strike(token) {
-			const el = config.jmstyle ? doc.createElement('span') :doc.createElement('del');
-			dive(token.children).forEach(child => el.appendChild(child));
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('del');
+			appendChildren(token.children, el);
 			el.setAttribute('data-mfm', 'strike');
+			return el;
+		},
+
+		italic(token) {
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
+			appendChildren(token.children, el);
+			el.setAttribute('data-mfm', 'i');
 			return el;
 		},
 

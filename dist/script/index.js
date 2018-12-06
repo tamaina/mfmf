@@ -8,3 +8,5 @@ const html_to_mfm_1 = require("./mfm/html-to-mfm");
 exports.htmlToMfm = html_to_mfm_1.default;
 const syntax_highlight_1 = require("./mfm/syntax-highlight");
 exports.syntaxHighlighter = syntax_highlight_1.default;
+const parser_1 = require("./mfm/parser");
+exports.emojiRegex = parser_1.emojiRegex;

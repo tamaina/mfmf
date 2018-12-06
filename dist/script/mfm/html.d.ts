@@ -12,5 +12,5 @@ declare const _default: (tokens: Node[], mentionedRemoteUsers?: {
     uri: string;
     username: string;
     host: string;
-}[], conf?: Source | mfmfHTMLConf | undefined) => string | null;
+}[], config?: Source | mfmfHTMLConf) => string | null;
 export default _default;
