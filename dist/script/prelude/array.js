@@ -36,6 +36,10 @@ function sum(xs) {
     return xs.reduce((a, b) => a + b, 0);
 }
 exports.sum = sum;
+function maximum(xs) {
+    return Math.max(...xs);
+}
+exports.maximum = maximum;
 function groupBy(f, xs) {
     const groups = [];
     for (const x of xs) {

@@ -40,5 +40,5 @@ export interface INotification {
 	/**
 	 * 通知が読まれたかどうか
 	 */
-	isRead: Boolean;
+	isRead: boolean;
 }

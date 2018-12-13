@@ -14,9 +14,10 @@ export type mfmfHTMLConf = {
 	codeTagAsDiv?: boolean;
 	rootTagName?: boolean;
 	faJm?: boolean;
+	search?: string;
 }
 
-export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], config: mfmfHTMLConf | Source = {} ) => {
+export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], config: mfmfHTMLConf = {} ) => {
 	if (tokens == null) {
 		return null;
 	}
@@ -27,12 +28,8 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 	let bigcnt = 0, motcnt = 0;
 
-	function dive(nodes: Node[] | undefined): Node[] {
-		return nodes === undefined ? [] : nodes.map(n => handlers[n.name](n));
-	}
-	
-	function appendChildren(children: Node[] | undefined, targetElement: any): void {
-		for(const child of dive(children)) targetElement.appendChild(child)
+	function appendChildren(children: Node[], targetElement: any): void {
+		for (const child of children.map(n => handlers[n.name](n))) targetElement.appendChild(child)
 	}
 
 	const handlers: { [key: string]: (token: Node) => any } = {
@@ -139,8 +136,18 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		mention(token) {
 			const a = doc.createElement('a');
 			const { username, host, acct } = token.props;
-			const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
-			a.href = remoteUserInfo ? remoteUserInfo.uri : `${config.url}/${acct}`;
+			switch (host) {
+				case 'github.com':
+					a.href = `https://github.com/${username}`;
+					break;
+				case 'twitter.com':
+					a.href = `https://twitter.com/${username}`;
+					break;
+				default:
+					const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
+					a.href = remoteUserInfo ? remoteUserInfo.uri : `${config.url}/${acct}`;
+					break;
+			}
 			a.textContent = acct;
 			a.setAttribute('data-mfm', 'mention');
 			return a;
@@ -165,11 +172,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 			const nodes = (token.props.text as string).split('\n').map(x => doc.createTextNode(x));
 
 			for (const x of intersperse('br', nodes)) {
-				if (x === 'br') {
-					el.appendChild(doc.createElement('br'));
-				} else {
-					el.appendChild(x);
-				}
+				el.appendChild(x === 'br' ? doc.createElement('br') : x);
 			}
 			el.setAttribute('data-mfm', 'text');
 			return el;

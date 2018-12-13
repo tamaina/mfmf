@@ -26,6 +26,7 @@ export declare type IMeta = {
     disableLocalTimeline?: boolean;
     hidedTags?: string[];
     bannerUrl?: string;
+    errorImageUrl?: string;
     cacheRemoteFiles?: boolean;
     proxyAccount?: string;
     enableRecaptcha?: boolean;

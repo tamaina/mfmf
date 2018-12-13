@@ -21,7 +21,9 @@ type IUserBase = {
 	wallpaperUrl?: string;
 	data: any;
 	description: string;
+	lang?: string;
 	pinnedNoteIds: mongo.ObjectID[];
+	emojis?: string[];
 
 	/**
 	 * 凍結されているか否か
@@ -83,6 +85,10 @@ export interface ILocalUser extends IUserBase {
 		birthday: string; // 'YYYY-MM-DD'
 		tags: string[];
 	};
+	fields?: {
+		name: string;
+		value: string;
+	}[];
 	isCat: boolean;
 	isAdmin?: boolean;
 	isModerator?: boolean;

@@ -32,6 +32,7 @@ export type IMeta = {
 	disableLocalTimeline?: boolean;
 	hidedTags?: string[];
 	bannerUrl?: string;
+	errorImageUrl?: string;
 
 	cacheRemoteFiles?: boolean;
 

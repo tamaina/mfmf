@@ -4,10 +4,12 @@ const parse5 = require('parse5');
 const url_1 = require("url");
 function default_1(html) {
     if (html == null)
-        return null;
+        return '';
     const dom = parse5.parseFragment(html);
     let text = '';
-    dom.childNodes.forEach((n) => analyze(n));
+    for (const n of dom.childNodes) {
+        analyze(n);
+    }
     return text.trim();
     function getText(node) {
         if (node.nodeName == '#text')
@@ -34,7 +36,7 @@ function default_1(html) {
                     text += txt;
                     // メンション
                 }
-                else if (txt.startsWith('@')) {
+                else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
                     const part = txt.split('@');
                     if (part.length == 2) {
                         //#region ホスト名部分が省略されているので復元する
@@ -54,12 +56,16 @@ function default_1(html) {
             case 'p':
                 text += '\n\n';
                 if (node.childNodes) {
-                    node.childNodes.forEach((n) => analyze(n));
+                    for (const n of node.childNodes) {
+                        analyze(n);
+                    }
                 }
                 break;
             default:
                 if (node.childNodes) {
-                    node.childNodes.forEach((n) => analyze(n));
+                    for (const n of node.childNodes) {
+                        analyze(n);
+                    }
                 }
                 break;
         }

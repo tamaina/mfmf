@@ -7,27 +7,24 @@ export const emojiRegex = /((?:\ud83d[\udc68\udc69])(?:\ud83c[\udffb-\udfff])?\u
 
 export type Node = {
 	name: string,
-	children?: Node[],
+	children: Node[],
 	props?: any;
 };
 
-function _makeNode(name: string, children?: Node[], props?: any): Node {
-	return children ? {
+function makeNode(name: string, props?: any): Node {
+	return {
 		name,
-		children,
-		props
-	} : {
-		name,
+		children: [],
 		props
 	};
 }
 
-function makeNode(name: string, props?: any): Node {
-	return _makeNode(name, null, props);
-}
-
 function makeNodeWithChildren(name: string, children: Node[], props?: any): Node {
-	return _makeNode(name, children, props);
+	return {
+		name,
+		children,
+		props
+	};
 }
 
 function getTrailingPosition(x: string): number {
@@ -211,6 +208,7 @@ const mfm = P.createLanguage({
 			hashtag = hashtag.substr(0, getTrailingPosition(hashtag));
 			if (hashtag.match(/^[0-9]+$/)) return P.makeFailure(i, 'not a hashtag');
 			if (input[i - 1] != null && input[i - 1].match(/[a-z0-9]/i)) return P.makeFailure(i, 'not a hashtag');
+			if (hashtag.length > 50) return P.makeFailure(i, 'not a hashtag');
 			return P.makeSuccess(i + ('#' + hashtag).length, makeNode('hashtag', { hashtag: hashtag }));
 		}),
 	//#endregion

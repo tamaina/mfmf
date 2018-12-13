@@ -2,13 +2,15 @@ const parse5 = require('parse5');
 import { URL } from 'url';
 
 export default function(html: string): string {
-	if (html == null) return null;
+	if (html == null) return '';
 
 	const dom = parse5.parseFragment(html);
 
 	let text = '';
 
-	dom.childNodes.forEach((n: any) => analyze(n));
+	for (const n of dom.childNodes) {
+		analyze(n);
+	}
 
 	return text.trim();
 
@@ -41,7 +43,7 @@ export default function(html: string): string {
 				if ((rel && rel.value.match('tag') !== null) || !href || href.value == txt) {
 					text += txt;
 				// メンション
-				} else if (txt.startsWith('@')) {
+				} else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
 					const part = txt.split('@');
 
 					if (part.length == 2) {
@@ -61,13 +63,17 @@ export default function(html: string): string {
 			case 'p':
 				text += '\n\n';
 				if (node.childNodes) {
-					node.childNodes.forEach((n: any) => analyze(n));
+					for (const n of node.childNodes) {
+						analyze(n);
+					}
 				}
 				break;
 
 			default:
 				if (node.childNodes) {
-					node.childNodes.forEach((n: any) => analyze(n));
+					for (const n of node.childNodes) {
+						analyze(n);
+					}
 				}
 				break;
 		}

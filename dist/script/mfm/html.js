@@ -11,11 +11,8 @@ exports.default = (tokens, mentionedRemoteUsers = [], config = {}) => {
     const { window } = new JSDOM('');
     const doc = window.document;
     let bigcnt = 0, motcnt = 0;
-    function dive(nodes) {
-        return nodes === undefined ? [] : nodes.map(n => handlers[n.name](n));
-    }
     function appendChildren(children, targetElement) {
-        for (const child of dive(children))
+        for (const child of children.map(n => handlers[n.name](n)))
             targetElement.appendChild(child);
     }
     const handlers = {
@@ -111,8 +108,18 @@ exports.default = (tokens, mentionedRemoteUsers = [], config = {}) => {
         mention(token) {
             const a = doc.createElement('a');
             const { username, host, acct } = token.props;
-            const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
-            a.href = remoteUserInfo ? remoteUserInfo.uri : `${config.url}/${acct}`;
+            switch (host) {
+                case 'github.com':
+                    a.href = `https://github.com/${username}`;
+                    break;
+                case 'twitter.com':
+                    a.href = `https://twitter.com/${username}`;
+                    break;
+                default:
+                    const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
+                    a.href = remoteUserInfo ? remoteUserInfo.uri : `${config.url}/${acct}`;
+                    break;
+            }
             a.textContent = acct;
             a.setAttribute('data-mfm', 'mention');
             return a;
@@ -133,12 +140,7 @@ exports.default = (tokens, mentionedRemoteUsers = [], config = {}) => {
             const el = doc.createElement('span');
             const nodes = token.props.text.split('\n').map(x => doc.createTextNode(x));
             for (const x of array_1.intersperse('br', nodes)) {
-                if (x === 'br') {
-                    el.appendChild(doc.createElement('br'));
-                }
-                else {
-                    el.appendChild(x);
-                }
+                el.appendChild(x === 'br' ? doc.createElement('br') : x);
             }
             el.setAttribute('data-mfm', 'text');
             return el;
