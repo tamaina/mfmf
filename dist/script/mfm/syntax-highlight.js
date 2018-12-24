@@ -226,16 +226,14 @@ const elements = [
             return null;
         if (!/^[\-\+]?[0-9\.]+/.test(code))
             return null;
-        const match = code.match(/^[\-\+]?[0-9\.]+/)[0];
-        if (match) {
-            return {
-                html: `<span class="number">${match}</span>`,
-                next: match.length
-            };
-        }
-        else {
+        const match = code.match(/^[\-\+]?[0-9\.]+/);
+        if (!match)
             return null;
-        }
+        const label = match[0];
+        return {
+            html: `<span class="number">${match}</span>`,
+            next: label.length
+        };
     },
     // nan
     (code, i, source) => {

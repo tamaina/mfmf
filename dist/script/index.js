@@ -16,3 +16,7 @@ const S = require("./prelude/string");
 exports.S = S;
 const M = require("./prelude/math");
 exports.M = M;
+const R = require("./prelude/relation");
+exports.R = R;
+const T = require("./prelude/tree");
+exports.T = T;

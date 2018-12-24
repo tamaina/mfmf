@@ -82,4 +82,8 @@ export type IMeta = {
 	smtpPort?: number;
 	smtpUser?: string;
 	smtpPass?: string;
+
+	enableServiceWorker?: boolean;
+	swPublicKey?: string;
+	swPrivateKey?: string;
 };

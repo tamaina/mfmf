@@ -25,8 +25,8 @@ console.log(html)
 // => `<p data-mfm="root"><b data-mfm="bold">mfmf</b></p>`
 ```
 
-#### mfm.render(input: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'], options?: any): string(HTML)
-`Node[]`を渡すと、HTML文字列が返ってきます。
+#### mfm.render(input: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'], options?: any): string(HTML)
+`MfmForest`を渡すと、HTML文字列が返ってきます。
 
 #### mentionedRemoteUsers: INote['mentionedRemoteUsers']
 Misskey内部処理で必要だったものです。リモートのメンションに関係するものです。
@@ -46,8 +46,8 @@ Misskey内部処理で必要だったものです。リモートのメンショ�
 - **`codeTagAsDiv`** : `true`に設定すると`pre`・`code`タグだったものが`div.pre`・`div.code`になります。
 - **`rootTagName`** : ルート要素のタグを指定します。初期値は`jmstyle ? 'div' : 'p'`です。
 
-#### mfm.parse(source: string): Node[]
-MFMテキストから`Node[]`を生成します。
+#### mfm.parse(source: string): MfmForest
+MFMテキストから`MfmForest`を生成します。
 
 #### mfm.syntaxHighlighter(source: string): string
 Misskey独自のシンタックスハイライトをします。  
@@ -69,6 +69,3 @@ SASSで記述されており、`src/style`にソースがあります。プレ�
 <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css" />
 
 <!-- render by test.js and paste here to try mfm -->
-<div data-mfm="root"><span data-mfm="text">mfm parse test<br></span><span data-mfm="big" class="animated tada"><span data-mfm="text">Big</span></span><span data-mfm="text"><br></span><span data-mfm="bold"><span data-mfm="text">Bold</span></span><span data-mfm="text"><br></span><div data-mfm="blockCode"><div data-mfm="blockCode-inner" class="mfm-highlight">Code (Block)
-const thisis = true</div></div><code data-mfm="inlineCode" class="mfm-highlight">Code (Inline)</code><span data-mfm="text"><br></span>:innocent:<span data-mfm="text"> Emoji<br></span><a href="?/tags/hashtag" rel="tag" data-mfm="hashtag">#hashtag</a><span data-mfm="text"><br></span><a href="https://misskey.xyz" data-mfm="link"><span data-mfm="text">link</span></a><span data-mfm="text"><br></span><a href="?/@mention" data-mfm="mention">@mention</a><span data-mfm="text"> </span><a href="?/@mention@other.instance" data-mfm="mention">@mention@other.instance</a><span data-mfm="text"><br></span><span data-mfm="motion" class="animated rubberBand"><span data-mfm="text">motion</span></span><span data-mfm="text">
-</span><span data-mfm="motion" class="animated rubberBand"><span data-mfm="text">motion</span></span><span data-mfm="text"><br></span><div data-mfm="center">:v:</div><span data-mfm="text"><br>"<br>Quote<br>"<br></span><div data-mfm="title"><span data-mfm="text">Title</span></div><div data-mfm="title"><span data-mfm="text">title</span></div><div data-mfm="search"><input data-mfm="search-input" type="search" placeholder="Misskey" value="Misskey"><button data-mfm="search-button"><i class="fas fa-search" data-mfm="search-button-icon" data-fa-prefix="fas" data-fa-icon-name="search"></i><span>検索</span></button></div><div data-mfm="search"><input data-mfm="search-input" type="search" placeholder="Misskey" value="Misskey"><button data-mfm="search-button"><i class="fas fa-search" data-mfm="search-button-icon" data-fa-prefix="fas" data-fa-icon-name="search"></i><span>検索</span></button></div><a href="https://misskey.xyz" data-mfm="url"><span data-mfm="url-schema">https://</span><span data-mfm="url-hostname">misskey.xyz</span><span data-mfm="url-port"></span><span data-mfm="url-pathname">/</span><span data-mfm="url-icon"></span><span data-mfm="url-hash"></span><i class="fas fa-external-link-square-alt" data-mfm="url-icon" data-fa-prefix="fas" data-fa-icon-name="external-link-square-alt"></i></a><span data-mfm="text"><br></span></div>

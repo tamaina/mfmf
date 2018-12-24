@@ -2,10 +2,9 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 //import config from '../config';
 import { INote } from '../models/note';
-import { Node } from './parser';
 import { intersperse } from '../prelude/array';
-import { Source } from '../config/types'
 import { toUnicode as punyToUnicode } from 'punycode'
+import { MfmForest, MfmTree } from './parser';
 
 export type mfmfHTMLConf = {
 	url?: string;
@@ -17,7 +16,7 @@ export type mfmfHTMLConf = {
 	search?: string;
 }
 
-export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], config: mfmfHTMLConf = {} ) => {
+export default (tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'] = [], config: mfmfHTMLConf = {} ) => {
 	if (tokens == null) {
 		return null;
 	}
@@ -28,11 +27,11 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 	let bigcnt = 0, motcnt = 0;
 
-	function appendChildren(children: Node[], targetElement: any): void {
-		for (const child of children.map(n => handlers[n.name](n))) targetElement.appendChild(child)
+	function appendChildren(children: MfmForest, targetElement: any): void {
+		for (const child of children.map(t => handlers[t.node.type](t))) targetElement.appendChild(child);
 	}
 
-	const handlers: { [key: string]: (token: Node) => any } = {
+	const handlers: { [key: string]: (token: MfmTree) => any } = {
 		bold(token) {
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('b');
 			appendChildren(token.children, el);
@@ -82,7 +81,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		blockCode(token) {
 			const pre = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('pre');
 			const inner = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('code');
-			inner.innerHTML = token.props.code;
+			inner.innerHTML = token.node.props.code;
 			pre.appendChild(inner);
 			inner.setAttribute('data-mfm', 'blockCode-inner');
 			inner.setAttribute('class', 'mfm-highlight');
@@ -98,13 +97,13 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		},
 
 		emoji(token) {
-			return doc.createTextNode(token.props.emoji ? token.props.emoji : `:${token.props.name}:`);
+			return doc.createTextNode(token.node.props.emoji ? token.node.props.emoji : `:${token.node.props.name}:`);
 		},
 
 		hashtag(token) {
 			const a = doc.createElement('a');
-			a.href = `${config.url || ''}/tags/${token.props.hashtag}`;
-			a.textContent = `#${token.props.hashtag}`;
+			a.href = `${config.url || ''}/tags/${token.node.props.hashtag}`;
+			a.textContent = `#${token.node.props.hashtag}`;
 			a.setAttribute('rel', 'tag');
 			a.setAttribute('data-mfm', 'hashtag');
 			return a;
@@ -112,7 +111,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 		inlineCode(token) {
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
-			el.textContent = token.props.code;
+			el.textContent = token.node.props.code;
 			el.setAttribute('data-mfm', 'inlineCode');
 			el.setAttribute('class', 'mfm-highlight');
 			return el;
@@ -120,14 +119,14 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 		math(token) {
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
-			el.textContent = token.props.formula;
+			el.textContent = token.node.props.formula;
 			el.setAttribute('data-mfm', 'math');
 			return el;
 		},
 
 		link(token) {
 			const a = doc.createElement('a');
-			a.href = token.props.url;
+			a.href = token.node.props.url;
 			appendChildren(token.children, a);
 			a.setAttribute('data-mfm', 'link');
 			return a;
@@ -135,7 +134,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 		mention(token) {
 			const a = doc.createElement('a');
-			const { username, host, acct } = token.props;
+			const { username, host, acct } = token.node.props;
 			switch (host) {
 				case 'github.com':
 					a.href = `https://github.com/${username}`;
@@ -169,7 +168,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 		text(token) {
 			const el = doc.createElement('span');
-			const nodes = (token.props.text as string).split('\n').map(x => doc.createTextNode(x));
+			const nodes = (token.node.props.text as string).split('\n').map(x => doc.createTextNode(x));
 
 			for (const x of intersperse('br', nodes)) {
 				el.appendChild(x === 'br' ? doc.createElement('br') : x);
@@ -180,9 +179,9 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 
 		url(token) {
 			const a = doc.createElement('a');
-			a.href = token.props.url;
+			a.href = token.node.props.url;
 			if (config.jmstyle) {
-				const u = new URL(token.props.url);
+				const u = new URL(token.node.props.url);
 				a.innerHTML = `
 					<span data-mfm="url-schema">${u.protocol}//</span>
 					<span data-mfm="url-hostname">${punyToUnicode(u.hostname)}</span>
@@ -193,7 +192,7 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 					<i class="fas fa-external-link-square-alt" data-mfm="url-icon"${config.faJm ? ' data-fa-prefix="fas" data-fa-icon-name="external-link-square-alt"' : ''}/>`
 					.replace(/[\n\t]/g, '');
 			} else {
-				a.textContent = token.props.url;
+				a.textContent = token.node.props.url;
 			}
 			a.setAttribute('data-mfm', 'url');
 			return a;
@@ -202,8 +201,8 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 		search(token) {
 			if (!config.jmstyle){
 				const a = doc.createElement('a');
-				a.href = `https://www.google.com/search?q=${token.props.query}`;
-				a.textContent = token.props.content;
+				a.href = `https://www.google.com/search?q=${token.node.props.query}`;
+				a.textContent = token.node.props.content;
 				return a;
 			} else {
 				const outer = doc.createElement('div');
@@ -213,8 +212,8 @@ export default (tokens: Node[], mentionedRemoteUsers: INote['mentionedRemoteUser
 				const button = doc.createElement('button');
 				button.setAttribute('data-mfm', 'search-button');
 				input.setAttribute('type', 'search');
-				input.setAttribute('placeholder', token.props.query);
-				input.setAttribute('value', token.props.query);
+				input.setAttribute('placeholder', token.node.props.query);
+				input.setAttribute('value', token.node.props.query);
 				const i = doc.createElement('i');
 				i.setAttribute('class', 'fas fa-search');
 				i.setAttribute('data-mfm', 'search-button-icon');

@@ -4,7 +4,7 @@ exports.isLocalUser = (user) => user.host === null;
 exports.isRemoteUser = (user) => !exports.isLocalUser(user);
 //#region Validators
 function validateUsername(username, remote) {
-    return typeof username == 'string' && (remote ? /^\w+([\w\.-]+\w+)?$/ : /^[a-zA-Z0-9_]{1,20}$/).test(username);
+    return typeof username == 'string' && (remote ? /^\w([\w-]*\w)?$/ : /^\w{1,20}$/).test(username);
 }
 exports.validateUsername = validateUsername;
 function validatePassword(password) {

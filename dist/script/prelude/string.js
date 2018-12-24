@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function concat(xs) {
-    return xs.reduce((a, b) => a + b, "");
+    return xs.join('');
 }
 exports.concat = concat;
 function capitalize(s) {
