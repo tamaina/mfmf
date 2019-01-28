@@ -78,6 +78,27 @@ export default (tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteU
 			return el;
 		},
 
+		spin(token) {
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
+			el.setAttribute('data-mfm', 'spin');
+			appendChildren(token.children, el);
+			return el;
+		},
+
+		jump(token) {
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('i');
+			el.setAttribute('data-mfm', 'jump');
+			appendChildren(token.children, el);
+			return el;
+		},
+
+		flip(token) {
+			const el = doc.createElement('span');
+			el.setAttribute('data-mfm', 'flip');
+			appendChildren(token.children, el);
+			return el;
+		},
+
 		blockCode(token) {
 			const pre = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('pre');
 			const inner = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('code');
@@ -117,10 +138,17 @@ export default (tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteU
 			return el;
 		},
 
-		math(token) {
+		mathInline(token) {
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.node.props.formula;
-			el.setAttribute('data-mfm', 'math');
+			el.setAttribute('data-mfm', 'mathInline');
+			return el;
+		},
+
+		mathBlock(token) {
+			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
+			el.textContent = token.node.props.formula;
+			el.setAttribute('data-mfm', 'mathInline');
 			return el;
 		},
 

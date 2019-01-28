@@ -1,4 +1,3 @@
-import { Node } from './parser';
 export declare type mfmfHTMLConf = {
     url?: string;
     jmstyle?: boolean;
@@ -8,7 +7,7 @@ export declare type mfmfHTMLConf = {
     faJm?: boolean;
     search?: string;
 };
-declare const _default: (tokens: Node[], mentionedRemoteUsers?: {
+declare const _default: (tokens: import("../prelude/tree").Tree<import("./parser").MfmNode>[], mentionedRemoteUsers?: {
     uri: string;
     username: string;
     host: string;

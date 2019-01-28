@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/script/",
   "scripts": {
+    "tsc": ".\\node_modules\\.bin\\tsc",
     "build": "node sass-build && tsc",
     "test": "gulp"
   },
@@ -31,6 +32,6 @@
     "gulp-mocha": "^6.0.0",
     "node-sass": "^4.10.0",
     "ts-node": "^7.0.1",
-    "typescript": "^3.0.1"
+    "typescript": "^3.2.4"
   }
 }

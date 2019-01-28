@@ -1,5 +1,11 @@
 /*
  * Tests of MFM
+ *
+ * How to run the tests:
+ * > mocha test/mfm.ts --require ts-node/register
+ *
+ * To specify test:
+ * > mocha test/mfm.ts --require ts-node/register -g 'test name'
  */
 
 import * as assert from 'assert';
@@ -32,8 +38,8 @@ describe('createTree', () => {
 			leaf('left', { a: 2 }),
 			leaf('right', { b: 'hi' })
 		], {
-			c: 4
-		});
+				c: 4
+			});
 		assert.deepStrictEqual(t, {
 			node: {
 				type: 'tree',
@@ -146,9 +152,19 @@ describe('MFM', () => {
 	it('can be analyzed', () => {
 		const tokens = analyze('@himawari @hima_sub@namori.net お腹ペコい :cat: #yryr');
 		assert.deepStrictEqual(tokens, [
-			leaf('mention', { acct: '@himawari', canonical: '@himawari', username: 'himawari', host: null }),
+			leaf('mention', {
+				acct: '@himawari',
+				canonical: '@himawari',
+				username: 'himawari',
+				host: null
+			}),
 			text(' '),
-			leaf('mention', { acct: '@hima_sub@namori.net', canonical: '@hima_sub@namori.net', username: 'hima_sub', host: 'namori.net' }),
+			leaf('mention', {
+				acct: '@hima_sub@namori.net',
+				canonical: '@hima_sub@namori.net',
+				username: 'hima_sub',
+				host: 'namori.net'
+			}),
 			text(' お腹ペコい '),
 			leaf('emoji', { name: 'cat' }),
 			text(' '),
@@ -177,6 +193,36 @@ describe('MFM', () => {
 					text('bar'),
 				]);
 			});
+
+			it('with underscores', () => {
+				const tokens = analyze('__foo__');
+				assert.deepStrictEqual(tokens, [
+					tree('bold', [
+						text('foo')
+					], {}),
+				]);
+			});
+
+			it('with underscores (ensure it allows alphabet only)', () => {
+				const tokens = analyze('(=^・__________・^=)');
+				assert.deepStrictEqual(tokens, [
+					text('(=^・__________・^=)')
+				]);
+			});
+
+			it('mixed syntax', () => {
+				const tokens = analyze('**foo__');
+				assert.deepStrictEqual(tokens, [
+						text('**foo__'),
+				]);
+			});
+
+			it('mixed syntax', () => {
+				const tokens = analyze('__foo**');
+				assert.deepStrictEqual(tokens, [
+						text('__foo**'),
+				]);
+			});
 		});
 
 		it('big', () => {
@@ -194,6 +240,48 @@ describe('MFM', () => {
 			assert.deepStrictEqual(tokens, [
 				tree('small', [
 					text('smaller')
+				], {}),
+			]);
+		});
+
+		it('flip', () => {
+			const tokens = analyze('<flip>foo</flip>');
+			assert.deepStrictEqual(tokens, [
+				tree('flip', [
+					text('foo')
+				], {}),
+			]);
+		});
+
+		describe('spin', () => {
+			it('simple', () => {
+				const tokens = analyze('<spin>:foo:</spin>');
+				assert.deepStrictEqual(tokens, [
+					tree('spin', [
+						leaf('emoji', { name: 'foo' })
+					], {
+						attr: null
+					}),
+				]);
+			});
+
+			it('with attr', () => {
+				const tokens = analyze('<spin left>:foo:</spin>');
+				assert.deepStrictEqual(tokens, [
+					tree('spin', [
+						leaf('emoji', { name: 'foo' })
+					], {
+						attr: 'left'
+					}),
+				]);
+			});
+		});
+
+		it('jump', () => {
+			const tokens = analyze('<jump>:foo:</jump>');
+			assert.deepStrictEqual(tokens, [
+				tree('jump', [
+					leaf('emoji', { name: 'foo' })
 				], {}),
 			]);
 		});
@@ -244,7 +332,12 @@ describe('MFM', () => {
 			it('local', () => {
 				const tokens = analyze('@himawari foo');
 				assert.deepStrictEqual(tokens, [
-					leaf('mention', { acct: '@himawari', canonical: '@himawari', username: 'himawari', host: null }),
+					leaf('mention', {
+						acct: '@himawari',
+						canonical: '@himawari',
+						username: 'himawari',
+						host: null
+					}),
 					text(' foo')
 				]);
 			});
@@ -252,7 +345,12 @@ describe('MFM', () => {
 			it('remote', () => {
 				const tokens = analyze('@hima_sub@namori.net foo');
 				assert.deepStrictEqual(tokens, [
-					leaf('mention', { acct: '@hima_sub@namori.net', canonical: '@hima_sub@namori.net', username: 'hima_sub', host: 'namori.net' }),
+					leaf('mention', {
+						acct: '@hima_sub@namori.net',
+						canonical: '@hima_sub@namori.net',
+						username: 'hima_sub',
+						host: 'namori.net'
+					}),
 					text(' foo')
 				]);
 			});
@@ -260,7 +358,12 @@ describe('MFM', () => {
 			it('remote punycode', () => {
 				const tokens = analyze('@hima_sub@xn--q9j5bya.xn--zckzah foo');
 				assert.deepStrictEqual(tokens, [
-					leaf('mention', { acct: '@hima_sub@xn--q9j5bya.xn--zckzah', canonical: '@hima_sub@なもり.テスト', username: 'hima_sub', host: 'xn--q9j5bya.xn--zckzah' }),
+					leaf('mention', {
+						acct: '@hima_sub@xn--q9j5bya.xn--zckzah',
+						canonical: '@hima_sub@なもり.テスト',
+						username: 'hima_sub',
+						host: 'xn--q9j5bya.xn--zckzah'
+					}),
 					text(' foo')
 				]);
 			});
@@ -273,11 +376,26 @@ describe('MFM', () => {
 
 				const tokens2 = analyze('@a\n@b\n@c');
 				assert.deepStrictEqual(tokens2, [
-					leaf('mention', { acct: '@a', canonical: '@a', username: 'a', host: null }),
+					leaf('mention', {
+						acct: '@a',
+						canonical: '@a',
+						username: 'a',
+						host: null
+					}),
 					text('\n'),
-					leaf('mention', { acct: '@b', canonical: '@b', username: 'b', host: null }),
+					leaf('mention', {
+						acct: '@b',
+						canonical: '@b',
+						username: 'b',
+						host: null
+					}),
 					text('\n'),
-					leaf('mention', { acct: '@c', canonical: '@c', username: 'c', host: null })
+					leaf('mention', {
+						acct: '@c',
+						canonical: '@c',
+						username: 'c',
+						host: null
+					})
 				]);
 
 				const tokens3 = analyze('**x**@a');
@@ -285,24 +403,31 @@ describe('MFM', () => {
 					tree('bold', [
 						text('x')
 					], {}),
-					leaf('mention', { acct: '@a', canonical: '@a', username: 'a', host: null })
+					leaf('mention', {
+						acct: '@a',
+						canonical: '@a',
+						username: 'a',
+						host: null
+					})
 				]);
 
-				const tokens4 = analyze('@\n@v\n@veryverylongusername' /* \n@toolongtobeasamention */ );
+				const tokens4 = analyze('@\n@v\n@veryverylongusername');
 				assert.deepStrictEqual(tokens4, [
 					text('@\n'),
-					leaf('mention', { acct: '@v', canonical: '@v', username: 'v', host: null }),
+					leaf('mention', {
+						acct: '@v',
+						canonical: '@v',
+						username: 'v',
+						host: null
+					}),
 					text('\n'),
-					leaf('mention', { acct: '@veryverylongusername', canonical: '@veryverylongusername', username: 'veryverylongusername', host: null }),
-					// text('\n@toolongtobeasamention')
+					leaf('mention', {
+						acct: '@veryverylongusername',
+						canonical: '@veryverylongusername',
+						username: 'veryverylongusername',
+						host: null
+					}),
 				]);
-				/*
-				const tokens5 = analyze('@domain_is@valid.example.com\n@domain_is@.invalid\n@domain_is@invali.d\n@domain_is@invali.d\n@domain_is@-invalid.com\n@domain_is@invalid-.com');
-				assert.deepStrictEqual([
-					leaf('mention', { acct: '@domain_is@valid.example.com', canonical: '@domain_is@valid.example.com', username: 'domain_is', host: 'valid.example.com' }),
-					text('\n@domain_is@.invalid\n@domain_is@invali.d\n@domain_is@invali.d\n@domain_is@-invalid.com\n@domain_is@invalid-.com')
-				], tokens5);
-				*/
 			});
 		});
 
@@ -354,6 +479,30 @@ describe('MFM', () => {
 				assert.deepStrictEqual(tokens, [
 					leaf('hashtag', { hashtag: 'Foo' }),
 					text('!'),
+				]);
+			});
+
+			it('ignore colon', () => {
+				const tokens = analyze('#Foo:');
+				assert.deepStrictEqual(tokens, [
+					leaf('hashtag', { hashtag: 'Foo' }),
+					text(':'),
+				]);
+			});
+
+			it('ignore single quote', () => {
+				const tokens = analyze('#foo\'');
+				assert.deepStrictEqual(tokens, [
+					leaf('hashtag', { hashtag: 'foo' }),
+					text('\''),
+				]);
+			});
+
+			it('ignore double quote', () => {
+				const tokens = analyze('#foo"');
+				assert.deepStrictEqual(tokens, [
+					leaf('hashtag', { hashtag: 'foo' }),
+					text('"'),
 				]);
 			});
 
@@ -776,13 +925,24 @@ describe('MFM', () => {
 			});
 		});
 
-		it('math', () => {
+		it('mathInline', () => {
 			const fomula = 'x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}';
-			const text = `\\(${fomula}\\)`;
-			const tokens = analyze(text);
+			const content = `\\(${fomula}\\)`;
+			const tokens = analyze(content);
 			assert.deepStrictEqual(tokens, [
-				leaf('math', { formula: fomula })
+				leaf('mathInline', { formula: fomula })
 			]);
+		});
+
+		describe('mathBlock', () => {
+			it('simple', () => {
+				const fomula = 'x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}';
+				const content = `\\[\n${fomula}\n\\]`;
+				const tokens = analyze(content);
+				assert.deepStrictEqual(tokens, [
+					leaf('mathBlock', { formula: fomula })
+				]);
+			});
 		});
 
 		it('search', () => {
@@ -834,6 +994,20 @@ describe('MFM', () => {
 					text('after')
 				]);
 			});
+
+			it('ignore multiple title blocks', () => {
+				const tokens = analyze('【foo】bar【baz】');
+				assert.deepStrictEqual(tokens, [
+					text('【foo】bar【baz】')
+				]);
+			});
+
+			it('disallow linebreak in title', () => {
+				const tokens = analyze('【foo\nbar】');
+				assert.deepStrictEqual(tokens, [
+					text('【foo\nbar】')
+				]);
+			});
 		});
 
 		describe('center', () => {
@@ -859,12 +1033,58 @@ describe('MFM', () => {
 		});
 
 		describe('italic', () => {
-			it('simple', () => {
+			it('<i>', () => {
 				const tokens = analyze('<i>foo</i>');
 				assert.deepStrictEqual(tokens, [
 					tree('italic', [
 						text('foo')
 					], {}),
+				]);
+			});
+
+			it('underscore', () => {
+				const tokens = analyze('_foo_');
+				assert.deepStrictEqual(tokens, [
+					tree('italic', [
+						text('foo')
+					], {}),
+				]);
+			});
+
+			it('simple with asterix', () => {
+				const tokens = analyze('*foo*');
+				assert.deepStrictEqual(tokens, [
+					tree('italic', [
+						text('foo')
+					], {}),
+				]);
+			});
+
+			it('exlude emotes', () => {
+				const tokens = analyze('*.*');
+				assert.deepStrictEqual(tokens, [
+					text("*.*"),
+				]);
+			});
+
+			it('mixed', () => {
+				const tokens = analyze('_foo*');
+				assert.deepStrictEqual(tokens, [
+					text('_foo*'),
+				]);
+			});
+
+			it('mixed', () => {
+				const tokens = analyze('*foo_');
+				assert.deepStrictEqual(tokens, [
+					text('*foo_'),
+				]);
+			});
+
+			it('ignore snake_case string', () => {
+				const tokens = analyze('foo_bar_baz');
+				assert.deepStrictEqual(tokens, [
+					text('foo_bar_baz'),
 				]);
 			});
 		});

@@ -89,11 +89,11 @@ const _keywords = [
     'implements',
     'constructor'
 ];
-const keywords = _keywords
+exports.keywords = _keywords
     .concat(_keywords.map(string_1.capitalize))
     .concat(_keywords.map(string_1.toUpperCase))
     .sort((a, b) => b.length - a.length);
-const symbols = [
+exports.symbols = [
     '=',
     '+',
     '-',
@@ -111,7 +111,7 @@ const symbols = [
 ];
 const elements = [
     // comment
-        code => {
+    code => {
         if (code.substr(0, 2) != '//')
             return null;
         const match = code.match(/^\/\/(.+?)(\n|$)/);
@@ -124,7 +124,7 @@ const elements = [
         };
     },
     // block comment
-        code => {
+    code => {
         const match = code.match(/^\/\*([\s\S]+?)\*\//);
         if (!match)
             return null;
@@ -134,7 +134,7 @@ const elements = [
         };
     },
     // string
-        code => {
+    code => {
         if (!/^['"`]/.test(code))
             return null;
         const begin = code[0];
@@ -171,7 +171,7 @@ const elements = [
         }
     },
     // regexp
-        code => {
+    code => {
         if (code[0] != '/')
             return null;
         let regexp = '';
@@ -207,7 +207,7 @@ const elements = [
         };
     },
     // label
-        code => {
+    code => {
         if (code[0] != '@')
             return null;
         const match = code.match(/^@([a-zA-Z_-]+?)\n/);
@@ -251,7 +251,7 @@ const elements = [
         }
     },
     // method
-        code => {
+    code => {
         const match = code.match(/^([a-zA-Z_-]+?)\(/);
         if (!match)
             return null;
@@ -280,7 +280,7 @@ const elements = [
         const prev = source[i - 1];
         if (prev && /[a-zA-Z]/.test(prev))
             return null;
-        const match = keywords.filter(k => code.substr(0, k.length) == k)[0];
+        const match = exports.keywords.filter(k => code.substr(0, k.length) == k)[0];
         if (match) {
             if (/^[a-zA-Z]/.test(code.substr(match.length)))
                 return null;
@@ -294,8 +294,8 @@ const elements = [
         }
     },
     // symbol
-        code => {
-        const match = symbols.filter(s => code[0] == s)[0];
+    code => {
+        const match = exports.symbols.filter(s => code[0] == s)[0];
         if (match) {
             return {
                 html: `<span class="symbol">${match}</span>`,

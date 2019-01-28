@@ -50,7 +50,7 @@ type IUserBase = {
 	 */
 	pendingReceivedFollowRequestsCount: number;
 
-	host: string;
+	host: string | null;
 };
 
 export interface ILocalUser extends IUserBase {

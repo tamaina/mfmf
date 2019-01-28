@@ -17,7 +17,7 @@ exports.transform = (x) => {
 };
 exports.transformMany = (xs) => {
     if (xs == null)
-        return null;
+        return [];
     return xs.map(x => exports.transform(x));
 };
 /**

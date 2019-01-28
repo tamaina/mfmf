@@ -90,12 +90,12 @@ const _keywords = [
 	'constructor'
 ];
 
-const keywords = _keywords
+export const keywords = _keywords
 	.concat(_keywords.map(capitalize))
 	.concat(_keywords.map(toUpperCase))
 	.sort((a, b) => b.length - a.length);
 
-const symbols = [
+export const symbols = [
 	'=',
 	'+',
 	'-',

@@ -69,3 +69,14 @@ SASSで記述されており、`src/style`にソースがあります。プレ�
 <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css" />
 
 <!-- render by test.js and paste here to try mfm -->
+
+## 開発
+### ビルド
+```
+npm run build
+```
+
+### テスト
+```
+gulp test
+```

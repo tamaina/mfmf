@@ -91,6 +91,8 @@ const mfm = P.createLanguage({
 	root: r => P.alt(
 		r.big,
 		r.small,
+		r.spin,
+		r.jump,
 		r.bold,
 		r.strike,
 		r.italic,
@@ -101,9 +103,11 @@ const mfm = P.createLanguage({
 		r.hashtag,
 		r.emoji,
 		r.blockCode,
+		r.flip,
 		r.inlineCode,
 		r.quote,
-		r.math,
+		r.mathInline,
+		r.mathBlock,
 		r.search,
 		r.title,
 		r.center,
@@ -121,7 +125,9 @@ const mfm = P.createLanguage({
 			r.mention,
 			r.hashtag,
 			r.emoji,
-			r.math,
+			r.mathInline,
+			r.spin,
+			r.jump,
 			r.text
 		).atLeast(1).tryParse(x), {})),
 	//#endregion
@@ -135,7 +141,35 @@ const mfm = P.createLanguage({
 			r.mention,
 			r.hashtag,
 			r.emoji,
-			r.math,
+			r.mathInline,
+			r.text
+		).atLeast(1).tryParse(x), {})),
+	//#endregion
+
+	//#region Spin
+	spin: r =>
+		P((input, i) => {
+			const text = input.substr(i);
+			const match = text.match(/^<spin(\s[a-z]+?)?>(.+?)<\/spin>/i);
+			if (!match) return P.makeFailure(i, 'not a spin');
+			return P.makeSuccess(i + match[0].length, {
+				content: match[2], attr: match[1] ? match[1].trim() : null
+			});
+		})
+		.map(x => createTree('spin', P.alt(
+			r.emoji,
+			r.flip,
+			r.text
+		).atLeast(1).tryParse(x.content), {
+			attr: x.attr
+		})),
+	//#endregion
+
+	//#region Jump
+	jump: r =>
+		P.regexp(/<jump>(.+?)<\/jump>/, 1)
+		.map(x => createTree('jump', P.alt(
+			r.emoji,
 			r.text
 		).atLeast(1).tryParse(x), {})),
 	//#endregion
@@ -154,7 +188,7 @@ const mfm = P.createLanguage({
 
 	//#region Bold
 	bold: r =>
-		P.regexp(/\*\*([\s\S]+?)\*\*/, 1)
+		P.alt(P.regexp(/\*\*([\s\S]+?)\*\*/, 1), P.regexp(/__([a-zA-Z0-9\s]+?)__/, 1))
 		.map(x => createTree('bold', P.alt(
 			r.strike,
 			r.italic,
@@ -162,6 +196,7 @@ const mfm = P.createLanguage({
 			r.hashtag,
 			r.url,
 			r.link,
+			r.flip,
 			r.emoji,
 			r.text
 		).atLeast(1).tryParse(x), {})),
@@ -173,6 +208,8 @@ const mfm = P.createLanguage({
 		.map(x => createTree('center', P.alt(
 			r.big,
 			r.small,
+			r.spin,
+			r.jump,
 			r.bold,
 			r.strike,
 			r.italic,
@@ -180,9 +217,10 @@ const mfm = P.createLanguage({
 			r.mention,
 			r.hashtag,
 			r.emoji,
-			r.math,
+			r.mathInline,
 			r.url,
 			r.link,
+			r.flip,
 			r.text
 		).atLeast(1).tryParse(x), {})),
 	//#endregion
@@ -205,7 +243,7 @@ const mfm = P.createLanguage({
 	hashtag: r =>
 		P((input, i) => {
 			const text = input.substr(i);
-			const match = text.match(/^#([^\s\.,!\?#]+)/i);
+			const match = text.match(/^#([^\s\.,!\?'"#:]+)/i);
 			if (!match) return P.makeFailure(i, 'not a hashtag');
 			let hashtag = match[1];
 			hashtag = removeOrphanedBrackets(hashtag);
@@ -216,6 +254,24 @@ const mfm = P.createLanguage({
 		}),
 	//#endregion
 
+	//#region Flip
+	flip: r =>
+		P.regexp(/<flip>(.+?)<\/flip>/, 1)
+		.map(x => createTree('flip', P.alt(
+			r.big,
+			r.small,
+			r.spin,
+			r.jump,
+			r.bold,
+			r.strike,
+			r.link,
+			r.italic,
+			r.motion,
+			r.emoji,
+			r.text
+		).atLeast(1).tryParse(x), {})),
+	//#endregion
+
 	//#region Inline code
 	inlineCode: r =>
 		P.regexp(/`([^´\n]+?)`/, 1)
@@ -224,7 +280,16 @@ const mfm = P.createLanguage({
 
 	//#region Italic
 	italic: r =>
-		P.regexp(/<i>([\s\S]+?)<\/i>/, 1)
+		P.alt(
+			P.regexp(/<i>([\s\S]+?)<\/i>/, 1),
+			P((input, i) => {
+				const text = input.substr(i);
+				const match = text.match(/^(\*|_)([a-zA-Z0-9]+?[\s\S]*?)\1/);
+				if (!match) return P.makeFailure(i, 'not a italic');
+				if (input[i - 1] != null && input[i - 1].match(/[a-z0-9]/i)) return P.makeFailure(i, 'not a italic');
+				return P.makeSuccess(i + match[0].length, match[2]);
+			})
+		)
 		.map(x => createTree('italic', P.alt(
 			r.bold,
 			r.strike,
@@ -232,6 +297,7 @@ const mfm = P.createLanguage({
 			r.hashtag,
 			r.url,
 			r.link,
+			r.flip,
 			r.emoji,
 			r.text
 		).atLeast(1).tryParse(x), {})),
@@ -252,6 +318,8 @@ const mfm = P.createLanguage({
 			return createTree('link', P.alt(
 				r.big,
 				r.small,
+				r.spin,
+				r.jump,
 				r.bold,
 				r.strike,
 				r.italic,
@@ -265,10 +333,16 @@ const mfm = P.createLanguage({
 		}),
 	//#endregion
 
-	//#region Math
-	math: r =>
+	//#region Math (inline)
+	mathInline: r =>
 		P.regexp(/\\\((.+?)\\\)/, 1)
-		.map(x => createLeaf('math', { formula: x })),
+		.map(x => createLeaf('mathInline', { formula: x })),
+	//#endregion
+
+	//#region Math (block)
+	mathBlock: r =>
+		P.regexp(/\\\[([\s\S]+?)\\\]/, 1)
+		.map(x => createLeaf('mathBlock', { formula: x.trim() })),
 	//#endregion
 
 	//#region Mention
@@ -295,6 +369,8 @@ const mfm = P.createLanguage({
 		.map(x => createTree('motion', P.alt(
 			r.bold,
 			r.small,
+			r.spin,
+			r.jump,
 			r.strike,
 			r.italic,
 			r.mention,
@@ -302,7 +378,8 @@ const mfm = P.createLanguage({
 			r.emoji,
 			r.url,
 			r.link,
-			r.math,
+			r.flip,
+			r.mathInline,
 			r.text
 		).atLeast(1).tryParse(x), {})),
 	//#endregion
@@ -340,6 +417,7 @@ const mfm = P.createLanguage({
 			r.hashtag,
 			r.url,
 			r.link,
+			r.flip,
 			r.emoji,
 			r.text
 		).atLeast(1).tryParse(x), {})),
@@ -349,18 +427,21 @@ const mfm = P.createLanguage({
 	title: r =>
 		newline.then(P((input, i) => {
 			const text = input.substr(i);
-			const match = text.match(/^((【|\[)(.+?)(】|]))(\n|$)/);
+			const match = text.match(/^([【\[]([^【\[】\]\n]+?)[】\]])(\n|$)/);
 			if (!match) return P.makeFailure(i, 'not a title');
-			const q = match[1].trim().substring(1, match[1].length - 1);
+			const q = match[2].trim();
 			const contents = P.alt(
 				r.big,
 				r.small,
+				r.spin,
+				r.jump,
 				r.bold,
 				r.strike,
 				r.italic,
 				r.motion,
 				r.url,
 				r.link,
+				r.flip,
 				r.mention,
 				r.hashtag,
 				r.emoji,
