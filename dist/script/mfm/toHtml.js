@@ -79,9 +79,10 @@ exports.toHtml = (tokens, mentionedRemoteUsers = [], config = {}) => {
             const pre = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('pre');
             const inner = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('code');
             inner.innerHTML = token.node.props.code;
-            pre.appendChild(inner);
             inner.setAttribute('data-mfm', 'blockCode-inner');
-            inner.classList.add(`language-${token.node.props.lang || 'js'}`);
+            console.log(token.node.props.lang);
+            inner.classList.add(`language-${token.node.props.lang}`);
+            pre.appendChild(inner);
             pre.setAttribute('data-mfm', 'blockCode');
             return pre;
         },
@@ -106,7 +107,7 @@ exports.toHtml = (tokens, mentionedRemoteUsers = [], config = {}) => {
             const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
             el.textContent = token.node.props.code;
             el.setAttribute('data-mfm', 'inlineCode');
-            el.classList.add(`language-${token.node.props.lang || 'js'}`);
+            el.classList.add(`language-${token.node.props.lang}`);
             return el;
         },
         mathInline(token) {

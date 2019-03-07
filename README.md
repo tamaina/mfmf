@@ -1,4 +1,6 @@
 # [mfmf: Misskey Flavored Markdown Functions](https://tamaina.github.io/mfmf/)
+![LISCENSE](https://img.shields.io/github/license/tamaina/mfmf.svg)![VERSION](https://img.shields.io/github/tag/tamaina/mfmf.svg)![npm](https://img.shields.io/npm/v/mfmf.svg)
+
 [Misskey](https://github.com/syuilo/misskey)で使われているMarkdown風の書式をライブラリとして扱うことができます。  
 Misskeyのソースコードをほぼそのまま抜き出しています。
 
