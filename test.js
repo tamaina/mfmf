@@ -3,25 +3,20 @@ const mfmf = require('./dist/script')
 
 const src = fs.readFileSync("test.mfm", "utf8")
 
+console.log('\n★mfm → joinmisskey式html')
 
 const parsed = mfmf.parse(src)
 
 fs.writeFileSync("parsed.json", JSON.stringify(parsed, null, 4))
 
-
-console.log('\n★mfm → joinmisskey式html')
-console.log(
-    mfmf.render(
-       parsed,
-       [],
-       { jmstyle: true, url: '?', codeTagAsDiv: true, faJm: true, animate: true }
-   ))
-console.log('\n★mfm → 外部に渡すhtml')
 const res = mfmf.render(
     parsed,
     [],
-    { url: '?', codeTagAsDiv: false }
+    { jmstyle: true, url: '?', codeTagAsDiv: false, faJm: true, animate: true }
 )
+
+console.log(res)
+console.log('\n★mfm → 外部に渡すhtml')
 console.log(
     mfmf.render(
         parsed,
