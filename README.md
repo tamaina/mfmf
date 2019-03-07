@@ -1,11 +1,8 @@
 # [mfmf: Misskey Flavored Markdown Functions](https://tamaina.github.io/mfmf/)
-![LISCENSE](https://img.shields.io/github/license/tamaina/mfmf.svg)![VERSION](https://img.shields.io/github/tag/tamaina/mfmf.svg)![npm](https://img.shields.io/npm/v/mfmf.svg)
+[![LISCENSE](https://img.shields.io/github/license/tamaina/mfmf.svg)](https://github.com/tamaina/mfmf/blob/master/LICENSE) [![npm](https://img.shields.io/npm/v/mfmf.svg)](https://www.npmjs.com/package/mfmf)
 
 [Misskey](https://github.com/syuilo/misskey)で使われているMarkdown風の書式をライブラリとして扱うことができます。  
 Misskeyのソースコードをほぼそのまま抜き出しています。
-
-## liscense
-[LICENSE](./LICENSE)
 
 ## install
 ```
@@ -13,7 +10,6 @@ npm install mfmf
 ```
 
 ## usage
-
 ### Script
 ```
 const mfm = require('mfmf')
@@ -28,7 +24,7 @@ console.log(html)
 ```
 
 #### mfm.render(input: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'], options?: any): string(HTML)
-`MfmForest`を渡すと、HTML文字列が返ってきます。`toHtml`のエイリアスです。
+`MfmForest`を渡すと、HTML文字列が返ってきます。(`toHtml`のエイリアスです。)
 
 #### mentionedRemoteUsers: INote['mentionedRemoteUsers']
 Misskey内部処理で必要だったものです。リモートのメンションに関係するものです。
@@ -59,8 +55,7 @@ SASSで記述されており、`src/style`にソースがあります。プレ�
 mfmfは、mfmの実行に必要なpreludeやtypesなどもexportします。
 
 ## Example
-[ソースファイル](./test.mfm)
-[結果](./demo.html)
+[ソースファイル](./test.mfm) ==> [結果](./demo.html)
 
 ## 開発
 ### ビルド

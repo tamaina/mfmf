@@ -473,9 +473,29 @@
         "node": {
             "type": "text",
             "props": {
-                "text": "\n"
+                "text": "\n\n\n[mfmf説明に戻る](/)\n"
             }
         },
         "children": []
+    },
+    {
+        "node": {
+            "type": "link",
+            "props": {
+                "silent": false,
+                "url": "https://github.com/tamaina/mfmf"
+            }
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "tamaina/mfmf"
+                    }
+                },
+                "children": []
+            }
+        ]
     }
 ]

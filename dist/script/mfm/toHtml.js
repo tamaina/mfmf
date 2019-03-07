@@ -80,7 +80,6 @@ exports.toHtml = (tokens, mentionedRemoteUsers = [], config = {}) => {
             const inner = config.codeTagAsDiv ? doc.createElement('div') : doc.createElement('code');
             inner.innerHTML = token.node.props.code;
             inner.setAttribute('data-mfm', 'blockCode-inner');
-            console.log(token.node.props.lang);
             inner.classList.add(`language-${token.node.props.lang}`);
             pre.appendChild(inner);
             pre.setAttribute('data-mfm', 'blockCode');
