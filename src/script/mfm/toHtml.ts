@@ -103,7 +103,7 @@ export const toHtml = (tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 			inner.innerHTML = token.node.props.code;
 			pre.appendChild(inner);
 			inner.setAttribute('data-mfm', 'blockCode-inner');
-			if (token.node.props.lang) inner.classList.add(`language-${token.node.props.lang}`);
+			inner.classList.add(`language-${token.node.props.lang || 'js'}`);
 			pre.setAttribute('data-mfm', 'blockCode');
 			return pre;
 		},
@@ -132,7 +132,7 @@ export const toHtml = (tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.node.props.code;
 			el.setAttribute('data-mfm', 'inlineCode');
-			el.setAttribute('class', 'mfm-highlight');
+			el.classList.add(`language-${token.node.props.lang || 'js'}`);
 			return el;
 		},
 
