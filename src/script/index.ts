@@ -1,26 +1,34 @@
-import render from './mfm/html';
-import parse from './mfm/parse';
-import htmlToMfm from './mfm/html-to-mfm';
-import syntaxHighlighter from './mfm/syntax-highlight';
-import { emojiRegex, MfmNode, MfmTree, MfmForest, MentionNode } from './mfm/parser'
+import { toHtml } from './mfm/toHtml';
+import { parse } from './mfm/parse';
+import { fromHtml } from './mfm/fromHtml';
+import { emojiRegex, removeOrphanedBrackets, mfmLanguage } from './mfm/language'
+import * as types from './mfm/types'
 
-import * as A from './prelude/array'
-import * as S from './prelude/string'
-import * as M from './prelude/math'
-import * as R from './prelude/relation'
-import * as T from './prelude/tree'
+const render = toHtml
+const htmlToMfm = fromHtml
+
+import * as Ar from './prelude/array'
+import * as St from './prelude/string'
+import * as Ma from './prelude/math'
+import * as Re from './prelude/relation'
+import * as Tr from './prelude/tree'
+import * as Ur from './prelude/url'
+import * as Sy from './prelude/symbol'
+import * as Xm from './prelude/xml'
 
 export {
-	render,
-	htmlToMfm,
-	syntaxHighlighter,
+	render, toHtml,
+	htmlToMfm, fromHtml,
 	parse,
-	emojiRegex,
-	MfmNode, MfmTree, MfmForest, MentionNode,
+	emojiRegex, removeOrphanedBrackets, mfmLanguage,
+	types,
 
-	A,
-	S,
-	M,
-	R,
-	T
+	Ar,
+	St,
+	Ma,
+	Re,
+	Tr,
+	Ur,
+	Sy,
+	Xm
 }

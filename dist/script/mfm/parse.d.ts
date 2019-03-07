@@ -1,2 +1,3 @@
-declare const _default: (source: string, plainText?: boolean) => import("../prelude/tree").Tree<import("./parser").MfmNode>[];
-export default _default;
+import { MfmForest } from './types';
+export declare function parse(source: string): MfmForest;
+export declare function parsePlain(source: string): MfmForest;

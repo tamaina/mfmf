@@ -5,14 +5,11 @@ export declare type INote = {
     _id: mongo.ObjectID;
     createdAt: Date;
     deletedAt: Date;
+    updatedAt?: Date;
     fileIds: mongo.ObjectID[];
     replyId: mongo.ObjectID;
     renoteId: mongo.ObjectID;
-    poll: {
-        choices: Array<{
-            id: number;
-        }>;
-    };
+    poll: IPoll;
     text: string;
     tags: string[];
     tagsLower: string[];
@@ -24,21 +21,20 @@ export declare type INote = {
     localOnly: boolean;
     renoteCount: number;
     repliesCount: number;
-    reactionCounts: any;
+    reactionCounts: Record<string, number>;
     mentions: mongo.ObjectID[];
-    mentionedRemoteUsers: Array<{
+    mentionedRemoteUsers: {
         uri: string;
         username: string;
         host: string;
-    }>;
+    }[];
     /**
      * public ... 公開
      * home ... ホームタイムライン(ユーザーページのタイムライン含む)のみに流す
      * followers ... フォロワーのみ
      * specified ... visibleUserIds で指定したユーザーのみ
-     * private ... 自分のみ
      */
-    visibility: 'public' | 'home' | 'followers' | 'specified' | 'private';
+    visibility: 'public' | 'home' | 'followers' | 'specified';
     visibleUserIds: mongo.ObjectID[];
     geo: {
         coordinates: number[];
@@ -64,4 +60,14 @@ export declare type INote = {
         inbox?: string;
     };
     _files?: IDriveFile[];
+};
+export declare type IPoll = {
+    choices: IChoice[];
+    multiple?: boolean;
+    expiresAt?: Date;
+};
+export declare type IChoice = {
+    id: number;
+    text: string;
+    votes: number;
 };

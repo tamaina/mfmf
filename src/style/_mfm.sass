@@ -1,11 +1,11 @@
 [data-mfm="root"]
-  background-color: #ffffff
+  background-color: $mfmBgColor
   cursor: default
   display: block
   margin: 0
   padding: 0
   overflow-wrap: break-word
-  color: #717171
+  color: $mfmColor
   line-height: 1.5em
 
   *
@@ -13,19 +13,19 @@
 
   [data-mfm="bold"],
   [data-mfm="big"],
-  b
+  b, .b
     font-weight: bold
 
   [data-mfm="strike"],
-  del
+  del, .del
     text-decoration: line-through
 
   [data-mfm="i"],
-  i
+  i, .i
     font-style: oblique
 
   [data-mfm="small"],
-  small
+  small, .small
     font-size: smaller
 
   [data-mfm="inlineCode"],
@@ -34,7 +34,7 @@
     padding: 4px 8px
     margin: 0 0.5em
     font-size: 80%
-    color: #525252
+    color: $mfmInlineCodeColor
     background: rgba(0,0,0,.05)
     border-radius: 2px
     line-height: 1.171875em
@@ -55,7 +55,7 @@
       padding: 1rem
       border-radius: 2px
       margin: 0
-      color: #525252
+      color: $mfmBlockCodeColor
       background-color: transparent
       width: fit-content
 
@@ -65,10 +65,10 @@
     text-align: center
 
   [data-mfm="quote"],
-  blockquote
+  blockquote, .blockquote
     margin: 8px
     padding: 6px 12px
-    color: #aaa
+    color: $mfmBlockQuoteColor
     border-left: solid 3px #eee
 
   [data-mfm="title"],
@@ -78,7 +78,7 @@
     padding: 4px
     font-size: 90%
     text-align: center
-    background: #eef1f3
+    background: $mfmTitleBg
     border-radius: 4px
 
   [data-mfm="big"],
@@ -91,6 +91,19 @@
   .motion
     display: inline-block
     animation-iteration-count: infinite
+
+  [data-mfm="spin"]
+    display: inline-block
+    animation: mfmSpin 1.5s linear infinite
+    animation-direction: normal
+  
+  [data-mfm="jump"]
+    display: inline-block
+    animation: mfmJump 0.75s linear infinite
+
+  [data-mfm="flip"]
+    display: inline-block
+    transform: scaleX(-1)
 
   [data-mfm="search"],
   .search
@@ -129,7 +142,7 @@
       color: inherit
 
       &:hover
-        background-color: #eee
+        background-color: $googleSearchButtonBgHover
 
   a
     text-decoration: none
@@ -138,3 +151,22 @@
 
     &:hover
       text-decoration: underline
+  
+
+  @keyframes mfmSpin
+    0%
+      transform: rotate(0)
+    100%
+      transform: rotate(1turn)
+  
+  @keyframes mfmJump
+    0%
+    transform: translateY(0)
+    25%
+      transform: translateY(-16px)
+    50%
+      transform: translateY(0)
+    75%
+      transform: translateY(-8px)
+    100%
+      transform: translateY(0)

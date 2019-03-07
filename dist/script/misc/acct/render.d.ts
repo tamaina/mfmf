@@ -1,6 +1,3 @@
-declare type UserLike = {
-    host: string;
-    username: string;
-};
-declare const _default: (user: UserLike) => string;
+import Acct from './type';
+declare const _default: (user: Acct) => string;
 export default _default;

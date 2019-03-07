@@ -1,0 +1,31 @@
+mfm parse test
+***Big***
+**Bold**
+~~Strike~~
+
+【Code (Block)】
+```
+PLAIN TEXT
+```
+```typescript
+export const うふふ = (name: string = "フランちゃん") => {
+  return `${name}うふふ`
+}
+```
+`Code (Inline)`
+:innocent: Emoji
+#hashtag
+[link](https://misskey.xyz)
+@mention @mention@other.instance
+(((motion))) <motion>motion</motion>
+<center>:v:</center>
+<flip>flip</flip> <jump>jump</jump> <spin>spin</spin>
+"
+Quote
+"
+
+【Title】
+[title]
+Misskey Search
+Misskey [Search]
+https://misskey.xyz/?ai#syuilo

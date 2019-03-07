@@ -1,5 +1,4 @@
 import * as mongo from 'mongodb';
-import isObjectId from '../misc/is-objectid';
 import { length } from 'stringz';
 import { IDriveFile } from './drive-file';
 
@@ -11,14 +10,11 @@ export type INote = {
 	_id: mongo.ObjectID;
 	createdAt: Date;
 	deletedAt: Date;
+	updatedAt?: Date;
 	fileIds: mongo.ObjectID[];
 	replyId: mongo.ObjectID;
 	renoteId: mongo.ObjectID;
-	poll: {
-		choices: Array<{
-			id: number;
-		}>
-	};
+	poll: IPoll;
 	text: string;
 	tags: string[];
 	tagsLower: string[];
@@ -30,22 +26,21 @@ export type INote = {
 	localOnly: boolean;
 	renoteCount: number;
 	repliesCount: number;
-	reactionCounts: any;
+	reactionCounts: Record<string, number>;
 	mentions: mongo.ObjectID[];
-	mentionedRemoteUsers: Array<{
+	mentionedRemoteUsers: {
 		uri: string;
 		username: string;
 		host: string;
-	}>;
+	}[];
 
 	/**
 	 * public ... 公開
 	 * home ... ホームタイムライン(ユーザーページのタイムライン含む)のみに流す
 	 * followers ... フォロワーのみ
 	 * specified ... visibleUserIds で指定したユーザーのみ
-	 * private ... 自分のみ
 	 */
-	visibility: 'public' | 'home' | 'followers' | 'specified' | 'private';
+	visibility: 'public' | 'home' | 'followers' | 'specified';
 
 	visibleUserIds: mongo.ObjectID[];
 
@@ -77,4 +72,16 @@ export type INote = {
 		inbox?: string;
 	};
 	_files?: IDriveFile[];
-}
+};
+
+export type IPoll = {
+	choices: IChoice[];
+	multiple?: boolean;
+	expiresAt?: Date;
+};
+
+export type IChoice = {
+	id: number;
+	text: string;
+	votes: number;
+};

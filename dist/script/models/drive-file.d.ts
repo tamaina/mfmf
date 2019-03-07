@@ -75,4 +75,3 @@ export declare type IDriveFile = {
      */
     length: number;
 };
-export declare function validateFileName(name: string): boolean;

@@ -1,0 +1,481 @@
+[
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "mfm parse test\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "big",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "Big"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "bold",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "Bold"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "strike",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "Strike"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "title",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "Code (Block)"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "blockCode",
+            "props": {
+                "code": "PLAIN TEXT",
+                "lang": null
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "blockCode",
+            "props": {
+                "code": "export const うふふ = (name: string = \"フランちゃん\") => {\n  return `${name}うふふ`\n}",
+                "lang": "typescript"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "inlineCode",
+            "props": {
+                "code": "Code (Inline)"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "emoji",
+            "props": {
+                "name": "innocent"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": " Emoji\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "hashtag",
+            "props": {
+                "hashtag": "hashtag"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "link",
+            "props": {
+                "silent": false,
+                "url": "https://misskey.xyz"
+            }
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "link"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "mention",
+            "props": {
+                "canonical": "@mention",
+                "username": "mention",
+                "host": null,
+                "acct": "@mention"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": " "
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "mention",
+            "props": {
+                "canonical": "@mention@other.instance",
+                "username": "mention",
+                "host": "other.instance",
+                "acct": "@mention@other.instance"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "motion",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "motion"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": " "
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "motion",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "motion"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "center",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "emoji",
+                    "props": {
+                        "name": "v"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "flip",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "flip"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": " "
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "jump",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "jump"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": " "
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "spin",
+            "props": {
+                "attr": null
+            }
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "spin"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n\"\nQuote\n\"\n\n"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "title",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "Title"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "title",
+            "props": {}
+        },
+        "children": [
+            {
+                "node": {
+                    "type": "text",
+                    "props": {
+                        "text": "title"
+                    }
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "node": {
+            "type": "search",
+            "props": {
+                "query": "Misskey",
+                "content": "Misskey Search"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "search",
+            "props": {
+                "query": "Misskey",
+                "content": "Misskey [Search]"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "url",
+            "props": {
+                "url": "https://misskey.xyz/?ai#syuilo"
+            }
+        },
+        "children": []
+    },
+    {
+        "node": {
+            "type": "text",
+            "props": {
+                "text": "\n"
+            }
+        },
+        "children": []
+    }
+]
