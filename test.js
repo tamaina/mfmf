@@ -37,12 +37,13 @@ console.log('\nHashtag?')
 console.log(mfmf.htmlToMfm('<p><a href=\"https://misskey.xyz/\">https://misskey.xyz/</a> ?</p>'))
 */
 
+const path = "./demo.html"
 
-const readme = fs.readFileSync("./README.md", "utf8").replace(/\r?\n/g, "\n")
+const readme = fs.readFileSync(path, "utf8").replace(/\r?\n/g, "\n")
 
 const x = ["<!-- MFM_START -->\n", "\n<!-- MFM_END -->"]
 const re = /<!-- MFM_START -->\n[\s\S]*?\n<!-- MFM_END -->/
 
 const nreadme = readme.replace(/\r?\n/g, "\n").replace(re, `${x[0]}${res}${x[1]}`)
 
-fs.writeFileSync("./README.md", nreadme)
+fs.writeFileSync(path, nreadme)
