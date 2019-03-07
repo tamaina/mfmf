@@ -129,7 +129,7 @@ export const toHtml = (tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 		},
 
 		inlineCode(token) {
-			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
+			const el = config.codeTagAsDiv ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.node.props.code;
 			el.setAttribute('data-mfm', 'inlineCode');
 			el.classList.add(`language-${token.node.props.lang}`);
