@@ -59,11 +59,9 @@ mfmfは、mfmの実行に必要なpreludeやtypesなどもexportします。
 ## Example
 [ソースファイル](./test.mfm)
 
-<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" crossorigin="anonymous"></script>
-<script defer src="./assets/prism.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="./dist/style/mfm.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css" />
-<link rel="stylesheet" type="text/css" href="./assets/prism.css" />
+<link rel="stylesheet" type="text/css" href="./assets/prism-1.css" />
 
 <!-- MFM_START -->
 <div data-mfm="root"><span data-mfm="text">mfm parse test<br></span><span data-mfm="big" class="animated tada"><span data-mfm="text">Big</span></span><span data-mfm="text"><br></span><span data-mfm="bold"><span data-mfm="text">Bold</span></span><span data-mfm="text"><br></span><span data-mfm="strike"><span data-mfm="text">Strike</span></span><span data-mfm="text"><br><br></span><div data-mfm="title"><span data-mfm="text">Code (Block)</span></div><div data-mfm="blockCode"><div data-mfm="blockCode-inner">PLAIN TEXT</div></div><div data-mfm="blockCode"><div data-mfm="blockCode-inner" class="language-typescript">export const うふふ = (name: string = "フランちゃん") =&gt; {
@@ -81,3 +79,6 @@ npm run build
 ```
 gulp test
 ```
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" crossorigin="anonymous"></script>
+<script defer src="./assets/prism-1.js" crossorigin="anonymous"></script>
