@@ -28,8 +28,6 @@
     padding: 4px 8px;
     margin: 0 0.5em;
     font-size: 80%;
-    color: #525252;
-    background: rgba(0, 0, 0, 0.05);
     border-radius: 2px;
     line-height: 1.171875em; }
   [data-mfm="root"] [data-mfm="blockCode"],
@@ -39,7 +37,6 @@
     white-space: pre;
     margin: 8px 0;
     line-height: 1.171875em;
-    background: rgba(0, 0, 0, 0.05);
     padding: 0 !important; }
     [data-mfm="root"] [data-mfm="blockCode"] > [data-mfm="blockCode-inner"],
     [data-mfm="root"] [data-mfm="blockCode"] > code:not([data-mfm="math"]),
@@ -49,7 +46,6 @@
       padding: 1rem;
       border-radius: 2px;
       margin: 0;
-      color: #525252;
       background-color: transparent;
       width: fit-content;
       font-size: 80%; }
