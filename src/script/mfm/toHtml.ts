@@ -146,7 +146,7 @@ export const toHtml = (tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 		mathBlock(token) {
 			const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
 			el.textContent = token.node.props.formula;
-			el.setAttribute('data-mfm', 'mathInline');
+			el.setAttribute('data-mfm', 'mathBlock');
 			return el;
 		},
 

@@ -118,7 +118,7 @@ exports.toHtml = (tokens, mentionedRemoteUsers = [], config = {}) => {
         mathBlock(token) {
             const el = config.jmstyle ? doc.createElement('span') : doc.createElement('code');
             el.textContent = token.node.props.formula;
-            el.setAttribute('data-mfm', 'mathInline');
+            el.setAttribute('data-mfm', 'mathBlock');
             return el;
         },
         link(token) {
