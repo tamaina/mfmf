@@ -29,7 +29,7 @@
     font-size: smaller
 
   [data-mfm="inlineCode"],
-  code[data-mfm="inlineCode"]:not([data-mfm="math"])
+  code[data-mfm="inlineCode"]:not([data-mfm^="math"])
     display: inline-block
     border-radius: 2px
     line-height: 1.171875em
@@ -44,7 +44,7 @@
     padding: 0 !important
 
     > [data-mfm="blockCode-inner"],
-    > code:not([data-mfm="math"])
+    > code:not([data-mfm^="math"])
       display: block
       padding: 1rem
       border-radius: 2px

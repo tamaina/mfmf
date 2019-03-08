@@ -23,7 +23,7 @@
   [data-mfm="root"] small, [data-mfm="root"] .small {
     font-size: smaller; }
   [data-mfm="root"] [data-mfm="inlineCode"],
-  [data-mfm="root"] code[data-mfm="inlineCode"]:not([data-mfm="math"]) {
+  [data-mfm="root"] code[data-mfm="inlineCode"]:not([data-mfm^="math"]) {
     display: inline-block;
     border-radius: 2px;
     line-height: 1.171875em; }
@@ -36,9 +36,9 @@
     line-height: 1.171875em;
     padding: 0 !important; }
     [data-mfm="root"] [data-mfm="blockCode"] > [data-mfm="blockCode-inner"],
-    [data-mfm="root"] [data-mfm="blockCode"] > code:not([data-mfm="math"]),
+    [data-mfm="root"] [data-mfm="blockCode"] > code:not([data-mfm^="math"]),
     [data-mfm="root"] pre > [data-mfm="blockCode-inner"],
-    [data-mfm="root"] pre > code:not([data-mfm="math"]) {
+    [data-mfm="root"] pre > code:not([data-mfm^="math"]) {
       display: block;
       padding: 1rem;
       border-radius: 2px;
