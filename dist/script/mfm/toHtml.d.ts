@@ -7,7 +7,7 @@ export declare type mfmfHTMLConf = {
     faJm?: boolean;
     search?: string;
 };
-export declare const toHtml: (tokens: import("../prelude/tree").Tree<import("./types").MfmNode>[], mentionedRemoteUsers?: {
+export declare const toHtml: (tokens: import("../prelude/tree").Tree<import("./prelude").MfmNode>[], mentionedRemoteUsers?: {
     uri: string;
     username: string;
     host: string;

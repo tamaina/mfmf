@@ -2,7 +2,7 @@ import { toHtml } from './mfm/toHtml';
 import { parse } from './mfm/parse';
 import { fromHtml } from './mfm/fromHtml';
 import { emojiRegex, removeOrphanedBrackets, mfmLanguage } from './mfm/language'
-import * as types from './mfm/types'
+import * as types from './mfm/prelude'
 
 const render = toHtml
 const htmlToMfm = fromHtml

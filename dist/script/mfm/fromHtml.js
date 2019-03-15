@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const parse5_1 = require("parse5");
 const url_1 = require("url");
+const prelude_1 = require("./prelude");
 function fromHtml(html) {
     if (html == null)
         return null;
@@ -31,9 +32,10 @@ function fromHtml(html) {
                 const txt = getText(node);
                 const rel = node.attrs.find((x) => x.name == 'rel');
                 const href = node.attrs.find((x) => x.name == 'href');
+                const isHashtag = rel && rel.value.match('tag') !== null;
                 // ハッシュタグ / hrefがない / txtがURL
-                if ((rel && rel.value.match('tag') !== null) || !href || href.value == txt) {
-                    text += txt;
+                if (isHashtag || !href || href.value == txt) {
+                    text += isHashtag || txt.match(prelude_1.urlRegex) ? txt : `<${txt}>`;
                     // メンション
                 }
                 else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {

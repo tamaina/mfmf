@@ -2,7 +2,7 @@ import { JSDOM } from "jsdom"
 import { INote } from '../models/note';
 import { intersperse } from '../prelude/array';
 import { toUnicode as punyToUnicode } from 'punycode';
-import { MfmForest, MfmTree } from './types';
+import { MfmForest, MfmTree } from './prelude';
 
 export type mfmfHTMLConf = {
 	url?: string;

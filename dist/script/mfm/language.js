@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const P = require("parsimmon");
-const types_1 = require("./types");
+const prelude_1 = require("./prelude");
 const array_1 = require("../prelude/array");
 const parse_1 = require("../misc/acct/parse");
 const punycode_1 = require("punycode");
@@ -42,7 +42,7 @@ exports.mfmLanguage = P.createLanguage({
             return P.makeFailure(i, 'not a title');
         const q = match[2].trim();
         const contents = r.inline.atLeast(1).tryParse(q);
-        return P.makeSuccess(i + match[0].length, types_1.createTree('title', contents, {}));
+        return P.makeSuccess(i + match[0].length, prelude_1.createTree('title', contents, {}));
     })),
     quote: r => r.startOfLine.then(P((input, i) => {
         const text = input.substr(i);
@@ -53,30 +53,30 @@ exports.mfmLanguage = P.createLanguage({
         if (qInner == '')
             return P.makeFailure(i, 'not a quote');
         const contents = r.root.tryParse(qInner);
-        return P.makeSuccess(i + quote.join('\n').length + 1, types_1.createTree('quote', contents, {}));
+        return P.makeSuccess(i + quote.join('\n').length + 1, prelude_1.createTree('quote', contents, {}));
     })),
     search: r => r.startOfLine.then(P((input, i) => {
         const text = input.substr(i);
         const match = text.match(/^(.+?)( |　)(検索|\[検索\]|Search|\[Search\])(\n|$)/i);
         if (!match)
             return P.makeFailure(i, 'not a search');
-        return P.makeSuccess(i + match[0].length, types_1.createLeaf('search', { query: match[1], content: match[0].trim() }));
+        return P.makeSuccess(i + match[0].length, prelude_1.createLeaf('search', { query: match[1], content: match[0].trim() }));
     })),
     blockCode: r => r.startOfLine.then(P((input, i) => {
         const text = input.substr(i);
         const match = text.match(/^```(.+?)?\n([\s\S]+?)\n```(\n|$)/i);
         if (!match)
             return P.makeFailure(i, 'not a blockCode');
-        return P.makeSuccess(i + match[0].length, types_1.createLeaf('blockCode', { code: match[2], lang: match[1] ? match[1].trim() : null }));
+        return P.makeSuccess(i + match[0].length, prelude_1.createLeaf('blockCode', { code: match[2], lang: match[1] ? match[1].trim() : null }));
     })),
     inline: r => P.alt(r.big, r.bold, r.small, r.italic, r.strike, r.motion, r.spin, r.jump, r.flip, r.inlineCode, r.mathInline, r.mention, r.hashtag, r.url, r.link, r.emoji, r.text),
-    big: r => P.regexp(/^\*\*\*([\s\S]+?)\*\*\*/, 1).map(x => types_1.createTree('big', r.inline.atLeast(1).tryParse(x), {})),
+    big: r => P.regexp(/^\*\*\*([\s\S]+?)\*\*\*/, 1).map(x => prelude_1.createTree('big', r.inline.atLeast(1).tryParse(x), {})),
     bold: r => {
         const asterisk = P.regexp(/\*\*([\s\S]+?)\*\*/, 1);
         const underscore = P.regexp(/__([a-zA-Z0-9\s]+?)__/, 1);
-        return P.alt(asterisk, underscore).map(x => types_1.createTree('bold', r.inline.atLeast(1).tryParse(x), {}));
+        return P.alt(asterisk, underscore).map(x => prelude_1.createTree('bold', r.inline.atLeast(1).tryParse(x), {}));
     },
-    small: r => P.regexp(/<small>([\s\S]+?)<\/small>/, 1).map(x => types_1.createTree('small', r.inline.atLeast(1).tryParse(x), {})),
+    small: r => P.regexp(/<small>([\s\S]+?)<\/small>/, 1).map(x => prelude_1.createTree('small', r.inline.atLeast(1).tryParse(x), {})),
     italic: r => {
         const xml = P.regexp(/<i>([\s\S]+?)<\/i>/, 1);
         const underscore = P((input, i) => {
@@ -88,13 +88,13 @@ exports.mfmLanguage = P.createLanguage({
                 return P.makeFailure(i, 'not a italic');
             return P.makeSuccess(i + match[0].length, match[2]);
         });
-        return P.alt(xml, underscore).map(x => types_1.createTree('italic', r.inline.atLeast(1).tryParse(x), {}));
+        return P.alt(xml, underscore).map(x => prelude_1.createTree('italic', r.inline.atLeast(1).tryParse(x), {}));
     },
-    strike: r => P.regexp(/~~(.+?)~~/, 1).map(x => types_1.createTree('strike', r.inline.atLeast(1).tryParse(x), {})),
+    strike: r => P.regexp(/~~(.+?)~~/, 1).map(x => prelude_1.createTree('strike', r.inline.atLeast(1).tryParse(x), {})),
     motion: r => {
         const paren = P.regexp(/\(\(\(([\s\S]+?)\)\)\)/, 1);
         const xml = P.regexp(/<motion>(.+?)<\/motion>/, 1);
-        return P.alt(paren, xml).map(x => types_1.createTree('motion', r.inline.atLeast(1).tryParse(x), {}));
+        return P.alt(paren, xml).map(x => prelude_1.createTree('motion', r.inline.atLeast(1).tryParse(x), {}));
     },
     spin: r => {
         return P((input, i) => {
@@ -105,14 +105,14 @@ exports.mfmLanguage = P.createLanguage({
             return P.makeSuccess(i + match[0].length, {
                 content: match[2], attr: match[1] ? match[1].trim() : null
             });
-        }).map(x => types_1.createTree('spin', r.inline.atLeast(1).tryParse(x.content), { attr: x.attr }));
+        }).map(x => prelude_1.createTree('spin', r.inline.atLeast(1).tryParse(x.content), { attr: x.attr }));
     },
-    jump: r => P.regexp(/<jump>(.+?)<\/jump>/, 1).map(x => types_1.createTree('jump', r.inline.atLeast(1).tryParse(x), {})),
-    flip: r => P.regexp(/<flip>(.+?)<\/flip>/, 1).map(x => types_1.createTree('flip', r.inline.atLeast(1).tryParse(x), {})),
-    center: r => r.startOfLine.then(P.regexp(/<center>([\s\S]+?)<\/center>/, 1).map(x => types_1.createTree('center', r.inline.atLeast(1).tryParse(x), {}))),
-    inlineCode: () => P.regexp(/`([^´\n]+?)`/, 1).map(x => types_1.createLeaf('inlineCode', { code: x })),
-    mathBlock: r => r.startOfLine.then(P.regexp(/\\\[([\s\S]+?)\\\]/, 1).map(x => types_1.createLeaf('mathBlock', { formula: x.trim() }))),
-    mathInline: () => P.regexp(/\\\((.+?)\\\)/, 1).map(x => types_1.createLeaf('mathInline', { formula: x })),
+    jump: r => P.regexp(/<jump>(.+?)<\/jump>/, 1).map(x => prelude_1.createTree('jump', r.inline.atLeast(1).tryParse(x), {})),
+    flip: r => P.regexp(/<flip>(.+?)<\/flip>/, 1).map(x => prelude_1.createTree('flip', r.inline.atLeast(1).tryParse(x), {})),
+    center: r => r.startOfLine.then(P.regexp(/<center>([\s\S]+?)<\/center>/, 1).map(x => prelude_1.createTree('center', r.inline.atLeast(1).tryParse(x), {}))),
+    inlineCode: () => P.regexp(/`([^´\n]+?)`/, 1).map(x => prelude_1.createLeaf('inlineCode', { code: x })),
+    mathBlock: r => r.startOfLine.then(P.regexp(/\\\[([\s\S]+?)\\\]/, 1).map(x => prelude_1.createLeaf('mathBlock', { formula: x.trim() }))),
+    mathInline: () => P.regexp(/\\\((.+?)\\\)/, 1).map(x => prelude_1.createLeaf('mathInline', { formula: x })),
     mention: () => {
         return P((input, i) => {
             const text = input.substr(i);
@@ -125,7 +125,7 @@ exports.mfmLanguage = P.createLanguage({
         }).map(x => {
             const { username, host } = parse_1.default(x.substr(1));
             const canonical = host != null ? `@${username}@${punycode_1.toUnicode(host)}` : x;
-            return types_1.createLeaf('mention', { canonical, username, host, acct: x });
+            return prelude_1.createLeaf('mention', { canonical, username, host, acct: x });
         });
     },
     hashtag: () => P((input, i) => {
@@ -141,35 +141,42 @@ exports.mfmLanguage = P.createLanguage({
             return P.makeFailure(i, 'not a hashtag');
         if (hashtag.length > 50)
             return P.makeFailure(i, 'not a hashtag');
-        return P.makeSuccess(i + ('#' + hashtag).length, types_1.createLeaf('hashtag', { hashtag: hashtag }));
+        return P.makeSuccess(i + ('#' + hashtag).length, prelude_1.createLeaf('hashtag', { hashtag: hashtag }));
     }),
     url: () => {
         return P((input, i) => {
             const text = input.substr(i);
-            const match = text.match(/^https?:\/\/[\w\/:%#@\$&\?!\(\)\[\]~\.,=\+\-]+/);
-            if (!match)
-                return P.makeFailure(i, 'not a url');
-            let url = match[0];
+            const match = text.match(prelude_1.urlRegex);
+            let url;
+            if (!match) {
+                const match = text.match(/^<(https?:\/\/.*?)>/);
+                if (!match)
+                    return P.makeFailure(i, 'not a url');
+                url = match[1];
+                i += 2;
+            }
+            else
+                url = match[0];
             url = removeOrphanedBrackets(url);
             if (url.endsWith('.'))
                 url = url.substr(0, url.lastIndexOf('.'));
             if (url.endsWith(','))
                 url = url.substr(0, url.lastIndexOf(','));
             return P.makeSuccess(i + url.length, url);
-        }).map(x => types_1.createLeaf('url', { url: x }));
+        }).map(x => prelude_1.createLeaf('url', { url: x }));
     },
     link: r => {
         return P.seqObj(['silent', P.string('?').fallback(null).map(x => x != null)], P.string('['), ['text', P.regexp(/[^\n\[\]]+/)], P.string(']'), P.string('('), ['url', r.url], P.string(')')).map((x) => {
-            return types_1.createTree('link', r.inline.atLeast(1).tryParse(x.text), {
+            return prelude_1.createTree('link', r.inline.atLeast(1).tryParse(x.text), {
                 silent: x.silent,
                 url: x.url.node.props.url
             });
         });
     },
     emoji: () => {
-        const name = P.regexp(/:([a-z0-9_+-]+):/i, 1).map(x => types_1.createLeaf('emoji', { name: x }));
-        const code = P.regexp(exports.emojiRegex).map(x => types_1.createLeaf('emoji', { emoji: x }));
+        const name = P.regexp(/:([a-z0-9_+-]+):/i, 1).map(x => prelude_1.createLeaf('emoji', { name: x }));
+        const code = P.regexp(exports.emojiRegex).map(x => prelude_1.createLeaf('emoji', { emoji: x }));
         return P.alt(name, code);
     },
-    text: () => P.any.map(x => types_1.createLeaf('text', { text: x }))
+    text: () => P.any.map(x => prelude_1.createLeaf('text', { text: x }))
 });
